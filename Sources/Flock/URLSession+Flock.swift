@@ -2,11 +2,10 @@ import Foundation
 
 extension URLSession {
     public func flock(
-        _ remoteSource: URL,
-        to localDestination: URL,
+        to remoteSource: URL,
         numberOfConnections connectionCount: Int = 16,
         memoryLimit: Int = 67_108_864
-    ) async throws {
+    ) async throws -> URL {
         let request = URLRequest(url: remoteSource)
         let response = try await bytes(forHTTP: request).1
 
@@ -35,6 +34,8 @@ extension URLSession {
                 }
             }
         }
+
+        return FileManager.default.temporaryDirectory
     }
 }
 
