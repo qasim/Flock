@@ -2,10 +2,8 @@ import XCTest
 @testable import Flock
 
 final class FlockTests: XCTestCase {
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct
-        // results.
-        XCTAssertEqual(Flock().text, "Hello, World!")
+    func testExample() async throws {
+        let url = URL(string: "https://speed.hetzner.de/100MB.bin")!
+        try await URLSession.shared.flock(url, to: url)
     }
 }

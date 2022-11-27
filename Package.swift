@@ -4,21 +4,38 @@ import PackageDescription
 
 let package = Package(
     name: "Flock",
+    platforms: [
+        .macOS(.v12),
+    ],
     products: [
         .library(
             name: "Flock",
-            targets: ["Flock"]
+            targets: [
+                "Flock",
+            ]
         ),
     ],
-    dependencies: [],
+    dependencies: [
+        .package(
+            url: "https://github.com/apple/swift-algorithms",
+            exact: "1.0.0"
+        ),
+    ],
     targets: [
         .target(
             name: "Flock",
-            dependencies: []
+            dependencies: [
+                .product(
+                    name: "Algorithms",
+                    package: "swift-algorithms"
+                ),
+            ]
         ),
         .testTarget(
             name: "FlockTests",
-            dependencies: ["Flock"]
+            dependencies: [
+                "Flock",
+            ]
         ),
     ]
 )
