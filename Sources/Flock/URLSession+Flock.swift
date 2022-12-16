@@ -5,7 +5,7 @@ extension URLSession {
         to remoteSource: URL,
         numberOfConnections connectionCount: Int = 8,
         minimumConnectionLength: Int = 16_777_216
-    ) async throws -> URL {
+    ) async throws -> (URL, URLResponse) {
         try await
             Flock(
                 context: .init(

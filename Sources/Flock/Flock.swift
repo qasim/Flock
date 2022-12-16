@@ -18,12 +18,13 @@ class Flock {
         self.minimumConnectionLength = minimumConnectionLength
     }
 
-    func download() async throws -> URL {
+    func download() async throws -> (URL, URLResponse) {
         let request = URLRequest(url: remoteSource)
         let response = try await context.session.bytes(forHTTP: request).1
 
         guard response.value(forHTTPHeaderField: "Accept-Ranges") == "bytes" else {
-            throw Error.rangeHeaderUnsupported(remoteSource)
+            // Range header unsupported, fallback to single-connection download
+            return try await context.session.download(from: remoteSource)
         }
 
         let contentLength = Int(response.value(forHTTPHeaderField: "Content-Length") ?? "") ?? 0
@@ -31,20 +32,25 @@ class Flock {
             whenSplitUpTo: connectionCount,
             minimumPartitionLength: minimumConnectionLength
         )
-        print(byteRanges)
+
+        guard byteRanges.count > 1 else {
+            // Only 1 connection needed, fallback to single-connection download
+            return try await context.session.download(from: remoteSource)
+        }
 
         let localDirectory = context.fileManager.temporaryDirectory.appending(
-            component: remoteSource.absoluteString,
+            component: "\(UUID().uuidString)-\(remoteSource.absoluteString.fileSystemEncoded)",
             directoryHint: .isDirectory
         )
-        //try context.fileManager.createDirectory(at: localDirectory)
+        try context.fileManager.createDirectory(at: localDirectory)
+        print(localDirectory)
 
-        let partitions = byteRanges.map { range in
+        let partitions = byteRanges.map { byteRange in
             Partition(
                 context: context,
                 remoteSource: remoteSource,
-                byteRange: range,
-                localDestination: localDirectory.appending(component: "")
+                byteRange: byteRange,
+                localDestination: localDirectory.appending(component: "\(byteRange.lowerBound)-\(byteRange.upperBound)")
             )
         }
 
@@ -52,21 +58,11 @@ class Flock {
         await withThrowingTaskGroup(of: Void.self) { taskGroup in
             for partition in partitions {
                 taskGroup.addTask {
-                    var request = URLRequest(url: partition.remoteSource)
-                    request.setValue(
-                        "bytes=\(partition.byteRange.lowerBound)-\(partition.byteRange.upperBound)",
-                        forHTTPHeaderField: "Range"
-                    )
-
-                    print("\(request.value(forHTTPHeaderField: "Range")!): Starting")
-                    let (bytes, _) = try await partition.context.session.bytes(forHTTP: request)
-
-                    print("\(request.value(forHTTPHeaderField: "Range")!): Downloading")
-                    for try await _ in bytes {
-                        // Read all data
+                    do {
+                        try await partition.download()
+                    } catch {
+                        print(error)
                     }
-
-                    print("\(request.value(forHTTPHeaderField: "Range")!): Finished")
                 }
             }
         }
@@ -74,6 +70,6 @@ class Flock {
         // TODO: Merge partitions into single file
         // TODO: Return the single file's URL
 
-        return localDirectory
+        return (localDirectory, response)
     }
 }

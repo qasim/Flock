@@ -64,9 +64,5 @@ final class IntPartitioniningTests: XCTestCase {
             100.ranges(whenSplitUpTo: 1, minimumPartitionLength: 50),
             [0...99]
         )
-        XCTAssertEqual(
-            104857600.ranges(whenSplitUpTo: 4, minimumPartitionLength: 16777216),
-            [0...104857599]
-        )
     }
 }

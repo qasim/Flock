@@ -20,10 +20,28 @@ extension Flock {
             self.context = context
             self.remoteSource = remoteSource
             self.byteRange = byteRange
-            self.localDestination = URL(string: "TODO")!
+            self.localDestination = localDestination
         }
 
-        func download() async {
+        func download() async throws {
+            context.fileManager.createFile(atPath: localDestination.path(), contents: nil)
+
+            var request = URLRequest(url: remoteSource)
+            request.setValue(
+                "bytes=\(byteRange.lowerBound)-\(byteRange.upperBound)",
+                forHTTPHeaderField: "Range"
+            )
+
+            print("\(request.value(forHTTPHeaderField: "Range")!): Starting")
+            let (bytes, _) = try await context.session.bytes(forHTTP: request)
+
+            print("\(request.value(forHTTPHeaderField: "Range")!): Downloading")
+            for try await byte in bytes {
+                try write(Data([byte]))
+            }
+
+            try finishWriting()
+            print("\(request.value(forHTTPHeaderField: "Range")!): Finished")
         }
 
         // MARK: Writing
