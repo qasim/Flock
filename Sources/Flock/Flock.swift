@@ -38,38 +38,37 @@ class Flock {
             return try await context.session.download(from: remoteSource)
         }
 
-        let localDirectory = context.fileManager.temporaryDirectory.appending(
-            component: "\(UUID().uuidString)-\(remoteSource.absoluteString.fileSystemEncoded)",
-            directoryHint: .isDirectory
-        )
-        try context.fileManager.createDirectory(at: localDirectory)
-        print(localDirectory)
-
         let partitions = byteRanges.map { byteRange in
             Partition(
                 context: context,
                 remoteSource: remoteSource,
-                byteRange: byteRange,
-                localDestination: localDirectory.appending(component: "\(byteRange.lowerBound)-\(byteRange.upperBound)")
+                byteRange: byteRange
             )
         }
 
-        // TODO: Fetch all partitions
-        await withThrowingTaskGroup(of: Void.self) { taskGroup in
+        let partitionResults = try await withThrowingTaskGroup(
+            of: (Partition, URL).self,
+            returning: [(Partition, URL)].self
+        ) { taskGroup in
             for partition in partitions {
                 taskGroup.addTask {
-                    do {
-                        try await partition.download()
-                    } catch {
-                        print(error)
-                    }
+                    return (partition, try await partition.download().0)
                 }
             }
+
+            var result: [(Partition, URL)] = []
+            while let (url, partition) = try await taskGroup.next() {
+                result.append((url, partition))
+            }
+
+            return result
         }
+
+        print(partitionResults)
 
         // TODO: Merge partitions into single file
         // TODO: Return the single file's URL
 
-        return (localDirectory, response)
+        return (partitionResults.first!.1, response)
     }
 }
