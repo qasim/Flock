@@ -2,29 +2,28 @@ import Foundation
 
 class Flock {
     let context: Context
-    let remoteSource: URL
+    let remoteSourceRequest: URLRequest
     let connectionCount: Int
     let minimumConnectionLength: Int
 
     init(
         context: Context,
-        remoteSource: URL,
+        remoteSourceRequest: URLRequest,
         numberOfConnections connectionCount: Int,
         minimumConnectionLength: Int
     ) {
         self.context = context
-        self.remoteSource = remoteSource
+        self.remoteSourceRequest = remoteSourceRequest
         self.connectionCount = connectionCount
         self.minimumConnectionLength = minimumConnectionLength
     }
 
     func download() async throws -> (URL, URLResponse) {
-        let request = URLRequest(url: remoteSource)
-        let response = try await context.session.bytes(forHTTP: request).1
+        let response = try await context.session.bytes(for: remoteSourceRequest).1 as! HTTPURLResponse
 
         guard response.value(forHTTPHeaderField: "Accept-Ranges") == "bytes" else {
             // Range header unsupported, fallback to single-connection download
-            return try await context.session.download(from: remoteSource)
+            return try await context.session.download(for: remoteSourceRequest)
         }
 
         let contentLength = Int(response.value(forHTTPHeaderField: "Content-Length") ?? "") ?? 0
@@ -35,13 +34,13 @@ class Flock {
 
         guard byteRanges.count > 1 else {
             // Only 1 connection needed, fallback to single-connection download
-            return try await context.session.download(from: remoteSource)
+            return try await context.session.download(for: remoteSourceRequest)
         }
 
         let partitions = byteRanges.map { byteRange in
             Partition(
                 context: context,
-                remoteSource: remoteSource,
+                remoteSourceRequest: remoteSourceRequest,
                 byteRange: byteRange
             )
         }

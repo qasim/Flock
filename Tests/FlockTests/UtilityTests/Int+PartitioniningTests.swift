@@ -54,7 +54,7 @@ final class IntPartitioniningTests: XCTestCase {
     func testMinimumPartitionSizes() async throws {
         XCTAssertEqual(
             100.ranges(whenSplitUpTo: 3, minimumPartitionLength: 50),
-            [0...99]
+            [0...49, 50...99]
         )
         XCTAssertEqual(
             100.ranges(whenSplitUpTo: 4, minimumPartitionLength: 25),
