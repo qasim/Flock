@@ -2,14 +2,14 @@ import Foundation
 import Logging
 
 extension Flock {
-    struct Context {
-        private static var isLoggingSystemBootstrapped: Bool = false
+    public struct Context {
+        static var isLoggingSystemBootstrapped: Bool = false
 
         let fileManager: FileManager
         var log: Logger
         let session: URLSession
 
-        init(
+        public init(
             fileManager: FileManager = .default,
             logLevel: Logger.Level = .critical,
             session: URLSession = .shared

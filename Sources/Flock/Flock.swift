@@ -1,13 +1,13 @@
 import Foundation
 import Logging
 
-class Flock {
-    private var context: Context
-    private let remoteSourceRequest: URLRequest
-    private let connectionCount: Int
-    private let minimumConnectionLength: Int
+public final class Flock {
+    var context: Context
+    let remoteSourceRequest: URLRequest
+    let connectionCount: Int
+    let minimumConnectionLength: Int
 
-    init(
+    public init(
         context: Context,
         remoteSourceRequest: URLRequest,
         numberOfConnections connectionCount: Int,
@@ -23,7 +23,7 @@ class Flock {
         self.minimumConnectionLength = minimumConnectionLength
     }
 
-    func download() async throws -> (URL, URLResponse) {
+    public func download() async throws -> (URL, URLResponse) {
         var headRequest = remoteSourceRequest
         headRequest.httpMethod = "HEAD"
 

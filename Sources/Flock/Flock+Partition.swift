@@ -2,7 +2,7 @@ import Foundation
 
 extension Flock {
     class Partition {
-        private var context: Context
+        var context: Context
         
         let remoteSourceRequest: URLRequest
         let byteRange: ClosedRange<Int>
