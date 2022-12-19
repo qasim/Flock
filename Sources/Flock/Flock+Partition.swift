@@ -13,7 +13,7 @@ extension Flock {
             byteRange: ClosedRange<Int>
         ) {
             self.context = context
-            self.context.log[metadataKey: "byteRange"] = "\(byteRange)"
+            self.context.log[metadataKey: "partitionByteRange"] = "\(byteRange)"
 
             self.remoteSourceRequest = remoteSourceRequest
             self.byteRange = byteRange
@@ -29,7 +29,7 @@ extension Flock {
             context.log.debug("Download starting")
             let (url, response) = try await context.session.download(for: request)
 
-            context.log.debug("Download completed", metadata: ["destination": "\(url)"])
+            context.log.debug("Download completed", metadata: ["partitionDestination": "\(url)"])
             return (url, response)
         }
     }

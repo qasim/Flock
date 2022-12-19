@@ -66,16 +66,28 @@ class Flock {
             }
 
             var result: [(Partition, URL)] = []
-            while let (url, partition) = try await taskGroup.next() {
-                result.append((url, partition))
+            while let (partition, url) = try await taskGroup.next() {
+                result.append((partition, url))
             }
 
             return result
         }
 
-        // TODO: Merge partitions into single file
-        // TODO: Return the single file's URL
+        let destinationURL = context.fileManager
+            .temporaryDirectory
+            .appending(components: "FlockDownload_\(UUID().uuidString).tmp")
+        context.log[metadataKey: "destination"] = "\(destinationURL)"
 
-        return (partitionResults.first!.1, headResponse)
+        context.log.debug("Merging partitions")
+        try context.fileManager.merge(
+            partitionResults
+                .sorted { lhs, rhs in
+                    lhs.0.byteRange.upperBound < rhs.0.byteRange.lowerBound
+                }
+                .map(\.1),
+            to: destinationURL
+        )
+
+        return (destinationURL, headResponse)
     }
 }
