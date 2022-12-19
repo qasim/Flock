@@ -6,17 +6,20 @@ extension Flock {
         
         let remoteSourceRequest: URLRequest
         let byteRange: ClosedRange<Int>
+        let progress: Progress?
 
         init(
             context: Context,
             remoteSourceRequest: URLRequest,
-            byteRange: ClosedRange<Int>
+            byteRange: ClosedRange<Int>,
+            progress: Progress?
         ) {
             self.context = context
             self.context.log[metadataKey: "partitionByteRange"] = "\(byteRange)"
 
             self.remoteSourceRequest = remoteSourceRequest
             self.byteRange = byteRange
+            self.progress = progress
         }
 
         func download() async throws -> (URL, URLResponse) {
@@ -27,7 +30,7 @@ extension Flock {
             )
 
             context.log.debug("Downloading")
-            return try await context.session.singleConnectionDownload(from: request)
+            return try await context.session.singleConnectionDownload(from: request, progress: progress)
         }
     }
 }

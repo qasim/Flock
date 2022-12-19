@@ -2,12 +2,16 @@ import Foundation
 import XCTest
 @testable import Flock
 
-final class FlockTests: XCTestCase {
+final class FlockValidationTests: XCTestCase {
     func testResultIsEqualToRegularDownload() async throws {
-        let url = URL(string: "http://212.183.159.230/10MB.zip")!
+        let url = URL(string: "http://212.183.159.230/5MB.zip")!
 
         let regularDownload = try await URLSession.shared.download(from: url).0
-        let flockedDownload = try await URLSession.shared.flock(from: url, minimumConnectionSize: 2_097_152, isDebug: true).0
+        let flockedDownload = try await URLSession.shared.flock(
+            from: url,
+            numberOfConnections: 5,
+            minimumConnectionSize: 1
+        ).0
 
         defer {
             try? FileManager.default.removeItem(at: regularDownload)

@@ -5,12 +5,14 @@ extension URLSession {
         from remoteSource: URL,
         numberOfConnections connectionCount: Int = 8,
         minimumConnectionSize: Int = 16_777_216,
+        progressDelegate: FlockProgressDelegate? = nil,
         isDebug: Bool = false
     ) async throws -> (URL, URLResponse) {
         try await flock(
             from: URLRequest(url: remoteSource),
             numberOfConnections: connectionCount,
             minimumConnectionSize: minimumConnectionSize,
+            progressDelegate: progressDelegate,
             isDebug: isDebug
         )
     }
@@ -19,6 +21,7 @@ extension URLSession {
         from remoteSourceRequest: URLRequest,
         numberOfConnections connectionCount: Int = 8,
         minimumConnectionSize: Int = 16_777_216,
+        progressDelegate: FlockProgressDelegate? = nil,
         isDebug: Bool = false
     ) async throws -> (URL, URLResponse) {
         try await
@@ -29,7 +32,8 @@ extension URLSession {
                 ),
                 remoteSourceRequest: remoteSourceRequest,
                 numberOfConnections: connectionCount,
-                minimumConnectionSize: minimumConnectionSize
+                minimumConnectionSize: minimumConnectionSize,
+                progressDelegate: progressDelegate
             )
             .download()
     }

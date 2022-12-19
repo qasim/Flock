@@ -7,7 +7,8 @@ extension URLSession {
 
     func singleConnectionDownload(
         from remoteSourceRequest: URLRequest,
-        bufferSize: Int = 65_536
+        bufferSize: Int = 65_536,
+        progress: Flock.Progress?
     ) async throws -> (URL, URLResponse) {
         let (asyncBytes, response) = try await bytes(for: remoteSourceRequest)
 
@@ -26,10 +27,12 @@ extension URLSession {
             if buffer.count == bufferSize {
                 try destinationStream.write(buffer)
                 buffer.removeAll(keepingCapacity: true)
+                await progress?.add(bufferSize, from: remoteSourceRequest)
             }
         }
         if !buffer.isEmpty {
             try destinationStream.write(buffer)
+            await progress?.add(buffer.count, from: remoteSourceRequest)
         }
 
         destinationStream.close()
