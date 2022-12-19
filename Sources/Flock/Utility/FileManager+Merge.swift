@@ -2,7 +2,7 @@ import Foundation
 
 extension FileManager {
     func merge(_ partitionSources: [URL], to destination: URL, chunkSize: Int = 67_108_864) throws {
-        createFile(atPath: destination.path(), contents: nil)
+        createFile(atPath: destination.backportedPath, contents: nil)
         let destinationHandle = try FileHandle(forWritingTo: destination)
         for source in partitionSources {
             let sourceHandle = try FileHandle(forReadingFrom: source)

@@ -4,7 +4,7 @@ import PackageDescription
 
 let package = Package(
     name: "Flock",
-    platforms: [.macOS(.v13)],
+    platforms: [.macOS(.v12)],
     products: [
         .library(name: "Flock", targets: ["Flock"]),
     ],

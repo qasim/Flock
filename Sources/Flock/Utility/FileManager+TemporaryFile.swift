@@ -2,6 +2,11 @@ import Foundation
 
 extension FileManager {
     var flockTemporaryFile: URL {
-        temporaryDirectory.appending(components: "Flock_\(UUID().uuidString).tmp")
+        let component = "Flock_\(UUID().uuidString).tmp"
+        if #available(macOS 13.0, *) {
+            return temporaryDirectory.appending(component: component)
+        } else {
+            return temporaryDirectory.appendingPathExtension(component)
+        }
     }
 }
