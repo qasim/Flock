@@ -1,7 +1,7 @@
 import Foundation
 
 extension FileManager {
-    var temporaryFile: URL {
+    var flockTemporaryFile: URL {
         temporaryDirectory.appending(components: "Flock_\(UUID().uuidString).tmp")
     }
 }

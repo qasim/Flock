@@ -12,7 +12,7 @@ extension URLSession {
     ) async throws -> (URL, URLResponse) {
         let (asyncBytes, response) = try await bytes(for: remoteSourceRequest)
 
-        let destinationURL = FileManager.default.temporaryFile
+        let destinationURL = FileManager.default.flockTemporaryFile
         guard let destinationStream = OutputStream(url: destinationURL, append: false) else {
             throw FlockError.failedToCreateOutputStream(destinationURL)
         }
@@ -27,12 +27,17 @@ extension URLSession {
             if buffer.count == bufferSize {
                 try destinationStream.write(buffer)
                 buffer.removeAll(keepingCapacity: true)
-                await progress?.add(bufferSize, from: remoteSourceRequest)
+                Task.detached {
+                    await progress?.add(bufferSize, from: remoteSourceRequest)
+                }
             }
         }
         if !buffer.isEmpty {
             try destinationStream.write(buffer)
-            await progress?.add(buffer.count, from: remoteSourceRequest)
+            let bufferCount = buffer.count
+            Task.detached {
+                await progress?.add(bufferCount, from: remoteSourceRequest)
+            }
         }
 
         destinationStream.close()

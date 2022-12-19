@@ -84,7 +84,7 @@ public final class Flock {
             return result
         }
 
-        let destinationURL = context.fileManager.temporaryFile
+        let destinationURL = context.fileManager.flockTemporaryFile
         context.log[metadataKey: "destination"] = "\(destinationURL)"
 
         context.log.debug("Merging partitions")
