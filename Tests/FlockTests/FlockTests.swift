@@ -1,15 +1,35 @@
+import Foundation
 import XCTest
 @testable import Flock
 
 final class FlockTests: XCTestCase {
-    func testExample() async throws {
-        let url = URL(string: "http://212.183.159.230/100MB.zip")!
+    func testResultIsEqualToRegularDownload() async throws {
+        let url = URL(string: "http://212.183.159.230/10MB.zip")!
 
-        _ = try await URLSession.shared.flock(
-            from: url,
-            numberOfConnections: 8,
-            minimumConnectionLength: 1,
-            isDebug: true
+        let regularDownload = try await URLSession.shared.download(from: url).0
+        let flockedDownload = try await URLSession.shared.flock(from: url, minimumConnectionLength: 2_097_152).0
+
+        XCTAssert(
+            FileManager.default.contentsEqual(
+                atPath: regularDownload.path(),
+                andPath: flockedDownload.path()
+            )
         )
+    }
+
+    func testPerformance() async throws {
+        let clock = ContinuousClock()
+        let url = URL(string: "http://212.183.159.230/10MB.zip")!
+
+        let regularTime = try await clock.measure {
+            _ = try await URLSession.shared.download(from: url).0
+        }
+
+        let flockedTime = try await clock.measure {
+            _ = try await URLSession.shared.flock(from: url, minimumConnectionLength: 1_097_152).0
+        }
+
+        print("Regular time: \(regularTime)")
+        print("Flocked time: \(flockedTime)")
     }
 }

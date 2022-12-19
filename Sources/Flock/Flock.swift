@@ -78,7 +78,7 @@ class Flock {
             .appending(components: "FlockDownload_\(UUID().uuidString).tmp")
         context.log[metadataKey: "destination"] = "\(destinationURL)"
 
-        context.log.debug("Merging partitions")
+        context.log.debug("Merging partitions into destination")
         try context.fileManager.merge(
             partitionResults
                 .sorted { lhs, rhs in
@@ -87,6 +87,17 @@ class Flock {
                 .map(\.1),
             to: destinationURL
         )
+
+        defer {
+            context.log.debug("Deleting partitions")
+            for (_, partitionURL) in partitionResults {
+                do {
+                    try context.fileManager.removeItem(at: partitionURL)
+                } catch {
+                    context.log.warning("Failed to delete partition", metadata: ["url": "\(partitionURL)", "error": "\(error)"])
+                }
+            }
+        }
 
         return (destinationURL, headResponse)
     }
