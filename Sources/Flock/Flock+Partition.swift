@@ -2,7 +2,7 @@ import Foundation
 
 extension Flock {
     class Partition {
-        private let context: Context
+        private var context: Context
         
         let remoteSourceRequest: URLRequest
         let byteRange: ClosedRange<Int>
@@ -13,6 +13,8 @@ extension Flock {
             byteRange: ClosedRange<Int>
         ) {
             self.context = context
+            self.context.log[metadataKey: "byteRange"] = "\(byteRange)"
+
             self.remoteSourceRequest = remoteSourceRequest
             self.byteRange = byteRange
         }
@@ -24,13 +26,10 @@ extension Flock {
                 forHTTPHeaderField: "Range"
             )
 
-            print("\(request.value(forHTTPHeaderField: "Range")!): Downloading")
+            context.log.debug("Download starting")
             let (url, response) = try await context.session.download(for: request)
 
-            print("\(byteRange): \(url.absoluteString)")
-
-            print("\(request.value(forHTTPHeaderField: "Range")!): Finished")
-
+            context.log.debug("Download completed", metadata: ["destination": "\(url)"])
             return (url, response)
         }
     }

@@ -3,7 +3,13 @@ import XCTest
 
 final class FlockTests: XCTestCase {
     func testExample() async throws {
-        //let url = URL(string: "https://speed.hetzner.de/100MB.bin")!
-        //_ = try await URLSession.shared.flock(to: url, numberOfConnections: 8, minimumConnectionLength: 1)
+        let url = URL(string: "http://212.183.159.230/100MB.zip")!
+
+        _ = try await URLSession.shared.flock(
+            from: url,
+            numberOfConnections: 8,
+            minimumConnectionLength: 1,
+            isDebug: true
+        )
     }
 }

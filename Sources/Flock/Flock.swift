@@ -1,10 +1,11 @@
 import Foundation
+import Logging
 
 class Flock {
-    let context: Context
-    let remoteSourceRequest: URLRequest
-    let connectionCount: Int
-    let minimumConnectionLength: Int
+    private var context: Context
+    private let remoteSourceRequest: URLRequest
+    private let connectionCount: Int
+    private let minimumConnectionLength: Int
 
     init(
         context: Context,
@@ -12,28 +13,36 @@ class Flock {
         numberOfConnections connectionCount: Int,
         minimumConnectionLength: Int
     ) {
+        precondition(remoteSourceRequest.url != nil, "request must have an URL.")
+
         self.context = context
+        self.context.log[metadataKey: "source"] = "\(remoteSourceRequest.url!)"
+
         self.remoteSourceRequest = remoteSourceRequest
         self.connectionCount = connectionCount
         self.minimumConnectionLength = minimumConnectionLength
     }
 
     func download() async throws -> (URL, URLResponse) {
-        let response = try await context.session.bytes(for: remoteSourceRequest).1 as! HTTPURLResponse
+        var headRequest = remoteSourceRequest
+        headRequest.httpMethod = "HEAD"
 
-        guard response.value(forHTTPHeaderField: "Accept-Ranges") == "bytes" else {
-            // Range header unsupported, fallback to single-connection download
+        context.log.debug("Fetching headers")
+        let headResponse = try await context.session.bytes(for: headRequest).1 as! HTTPURLResponse
+
+        guard headResponse.value(forHTTPHeaderField: "Accept-Ranges") == "bytes" else {
+            context.log.debug("Range header unsupported, falling back to single-connection download")
             return try await context.session.download(for: remoteSourceRequest)
         }
 
-        let contentLength = Int(response.value(forHTTPHeaderField: "Content-Length") ?? "") ?? 0
+        let contentLength = Int(headResponse.value(forHTTPHeaderField: "Content-Length") ?? "") ?? 0
         let byteRanges = contentLength.ranges(
             whenSplitUpTo: connectionCount,
             minimumPartitionLength: minimumConnectionLength
         )
 
         guard byteRanges.count > 1 else {
-            // Only 1 connection needed, fallback to single-connection download
+            context.log.debug("Partitioning produced only 1 range, falling back to single-connection download")
             return try await context.session.download(for: remoteSourceRequest)
         }
 
@@ -45,6 +54,7 @@ class Flock {
             )
         }
 
+        context.log.debug("Downloading partitions")
         let partitionResults = try await withThrowingTaskGroup(
             of: (Partition, URL).self,
             returning: [(Partition, URL)].self
@@ -63,11 +73,9 @@ class Flock {
             return result
         }
 
-        print(partitionResults)
-
         // TODO: Merge partitions into single file
         // TODO: Return the single file's URL
 
-        return (partitionResults.first!.1, response)
+        return (partitionResults.first!.1, headResponse)
     }
 }
