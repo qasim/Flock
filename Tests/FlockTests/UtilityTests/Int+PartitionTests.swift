@@ -1,7 +1,7 @@
 import XCTest
 @testable import Flock
 
-final class IntPartitioniningTests: XCTestCase {
+final class IntPartitionTests: XCTestCase {
     func testSingleCases() async throws {
         XCTAssertEqual(
             1.ranges(whenSplitUpTo: 1),

@@ -7,7 +7,12 @@ final class FlockTests: XCTestCase {
         let url = URL(string: "http://212.183.159.230/10MB.zip")!
 
         let regularDownload = try await URLSession.shared.download(from: url).0
-        let flockedDownload = try await URLSession.shared.flock(from: url, minimumConnectionSize: 2_097_152).0
+        let flockedDownload = try await URLSession.shared.flock(from: url, minimumConnectionSize: 2_097_152, isDebug: true).0
+
+        defer {
+            try? FileManager.default.removeItem(at: regularDownload)
+            try? FileManager.default.removeItem(at: flockedDownload)
+        }
 
         XCTAssert(
             FileManager.default.contentsEqual(

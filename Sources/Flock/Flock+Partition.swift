@@ -26,11 +26,8 @@ extension Flock {
                 forHTTPHeaderField: "Range"
             )
 
-            context.log.debug("Download starting")
-            let (url, response) = try await context.session.download(for: request)
-
-            context.log.debug("Download completed", metadata: ["partitionDestination": "\(url)"])
-            return (url, response)
+            context.log.debug("Downloading")
+            return try await context.session.singleConnectionDownload(from: request)
         }
     }
 }
