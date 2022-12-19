@@ -5,13 +5,13 @@ public final class Flock {
     var context: Context
     let remoteSourceRequest: URLRequest
     let connectionCount: Int
-    let minimumConnectionLength: Int
+    let minimumConnectionSize: Int
 
     public init(
         context: Context,
         remoteSourceRequest: URLRequest,
         numberOfConnections connectionCount: Int,
-        minimumConnectionLength: Int
+        minimumConnectionSize: Int
     ) {
         precondition(remoteSourceRequest.url != nil, "request must have an URL.")
 
@@ -20,7 +20,7 @@ public final class Flock {
 
         self.remoteSourceRequest = remoteSourceRequest
         self.connectionCount = connectionCount
-        self.minimumConnectionLength = minimumConnectionLength
+        self.minimumConnectionSize = minimumConnectionSize
     }
 
     public func download() async throws -> (URL, URLResponse) {
@@ -38,7 +38,7 @@ public final class Flock {
         let contentLength = Int(headResponse.value(forHTTPHeaderField: "Content-Length") ?? "") ?? 0
         let byteRanges = contentLength.ranges(
             whenSplitUpTo: connectionCount,
-            minimumPartitionLength: minimumConnectionLength
+            minimumPartitionSize: minimumConnectionSize
         )
 
         guard byteRanges.count > 1 else {

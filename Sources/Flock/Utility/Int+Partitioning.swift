@@ -3,19 +3,19 @@ import Algorithms
 extension Int {
     func ranges(
         whenSplitUpTo maximumNumberOfPartitions: Int,
-        minimumPartitionLength: Int = 1
+        minimumPartitionSize: Int = 1
     ) -> [ClosedRange<Int>] {
         precondition(self > 0, "values less than 1 cannot be partitioned.")
         precondition(maximumNumberOfPartitions > 0, "values cannot be partitioned less than 1 time.")
-        precondition(minimumPartitionLength > 0, "partitions cannot be smaller than 1.")
+        precondition(minimumPartitionSize > 0, "partitions cannot be smaller than 1.")
 
-        var numberOfPartitions = self / minimumPartitionLength
+        var numberOfPartitions = self / minimumPartitionSize
         if numberOfPartitions > maximumNumberOfPartitions {
             numberOfPartitions = maximumNumberOfPartitions
         }
 
         let partitionLength = self / numberOfPartitions
-        if partitionLength < minimumPartitionLength {
+        if partitionLength < minimumPartitionSize {
             return [0...self - 1]
         }
 
