@@ -10,14 +10,11 @@ let package = Package(
     ],
     dependencies: [
         .package(name: "Flock", path: ".."),
-        .package(url: "https://github.com/apple/swift-collections-benchmark", exact: "0.0.3"),
     ],
     targets: [
         .executableTarget(
             name: "Benchmarks",
-            dependencies: [
-                .product(name: "CollectionsBenchmark", package: "swift-collections-benchmark"),
-            ],
+            dependencies: ["Flock"],
             path: "Sources"
         ),
     ]

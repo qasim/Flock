@@ -1,3 +1,1 @@
-import CollectionsBenchmark
-
-Benchmark().main()
+print("TODO")
