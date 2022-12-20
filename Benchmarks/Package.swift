@@ -6,7 +6,7 @@ let package = Package(
     name: "Flock.Benchmarks",
     platforms: [.macOS(.v12)],
     products: [
-        .executable(name: "benchmark", targets: ["Benchmark"]),
+        .executable(name: "benchmark", targets: ["Benchmarks"]),
     ],
     dependencies: [
         .package(name: "Flock", path: ".."),
@@ -14,10 +14,11 @@ let package = Package(
     ],
     targets: [
         .executableTarget(
-            name: "Benchmark",
+            name: "Benchmarks",
             dependencies: [
                 .product(name: "CollectionsBenchmark", package: "swift-collections-benchmark"),
-            ]
+            ],
+            path: "Sources"
         ),
     ]
 )

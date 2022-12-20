@@ -18,11 +18,13 @@ let package = Package(
             dependencies: [
                 .product(name: "Algorithms", package: "swift-algorithms"),
                 .product(name: "Logging", package: "swift-log"),
-            ]
+            ],
+            path: "Sources"
         ),
         .testTarget(
             name: "FlockTests",
-            dependencies: ["Flock"]
+            dependencies: ["Flock"],
+            path: "Tests"
         ),
     ]
 )
