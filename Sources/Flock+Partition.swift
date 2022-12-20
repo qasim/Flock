@@ -30,7 +30,11 @@ extension Flock {
             )
 
             context.log.debug("Downloading")
-            return try await context.session.singleConnectionDownload(from: request, progress: progress)
+            return try await context.session.singleConnectionDownload(
+                from: request,
+                using: context.fileManager,
+                progress: progress
+            )
         }
     }
 }

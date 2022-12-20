@@ -43,7 +43,11 @@ public final class Flock {
 
         guard headResponse.value(forHTTPHeaderField: "Accept-Ranges") == "bytes" else {
             context.log.debug("Range header unsupported, falling back to single-connection download")
-            return try await context.session.singleConnectionDownload(from: remoteSourceRequest, progress: progress)
+            return try await context.session.singleConnectionDownload(
+                from: remoteSourceRequest,
+                using: context.fileManager,
+                progress: progress
+            )
         }
 
         let byteRanges = contentLength.ranges(
@@ -53,7 +57,11 @@ public final class Flock {
 
         guard byteRanges.count > 1 else {
             context.log.debug("Partitioning produced only 1 range, falling back to single-connection download")
-            return try await context.session.singleConnectionDownload(from: remoteSourceRequest, progress: progress)
+            return try await context.session.singleConnectionDownload(
+                from: remoteSourceRequest,
+                using: context.fileManager,
+                progress: progress
+            )
         }
 
         let partitions = byteRanges.map { byteRange in
