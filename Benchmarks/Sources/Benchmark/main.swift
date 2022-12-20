@@ -1,0 +1,3 @@
+import CollectionsBenchmark
+
+Benchmark().main()
