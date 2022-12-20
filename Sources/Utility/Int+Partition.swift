@@ -28,11 +28,7 @@ extension Int {
         ) + [self]
 
         return boundaries.adjacentPairs().map { start, end in
-            if start == 0 {
-                return 0...end - 1
-            } else {
-                return start...end - 1
-            }
+            start...end - 1
         }
     }
 }
