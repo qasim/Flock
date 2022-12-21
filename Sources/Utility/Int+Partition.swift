@@ -14,16 +14,16 @@ extension Int {
             numberOfPartitions = maximumNumberOfPartitions
         }
 
-        let partitionLength = self / numberOfPartitions
-        if partitionLength < minimumPartitionSize {
+        let partitionSize = self / numberOfPartitions
+        if partitionSize < minimumPartitionSize {
             return [0...self - 1]
         }
 
         let boundaries = Array(
             stride(
                 from: 0,
-                to: partitionLength * numberOfPartitions,
-                by: partitionLength
+                to: partitionSize * numberOfPartitions,
+                by: partitionSize
             )
         ) + [self]
 
