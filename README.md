@@ -1,6 +1,6 @@
 # Flock
 
-A Swift package for rapidly downloading a file through multiple connections in parallel.
+Flock is a Swift package for rapidly downloading a file through multiple connections in parallel.
 
 ## Installation
 
@@ -36,11 +36,12 @@ For example, to download a file using as many connections as your machine has [a
 try await URLSession.shared.flock(from: URL(string: "http://212.183.159.230/1GB.zip")!)
 ```
 
-To track progress of your download as it transfers, pass a [`progressDelegate`](https://github.com/qasim/Flock/blob/main/Sources/Flock%2BProgress.swift#L27-L34):
+To track progress of your download as it transfers, pass a [`FlockProgressDelegate`](https://github.com/qasim/Flock/blob/main/Sources/Flock%2BProgress.swift#L27-L35):
 
 ```swift
 class ExampleProgressDelegate: FlockProgressDelegate {
     func request(_ request: URLRequest, didRecieveBytes bytesReceived: Int, totalBytesReceived: Int, totalBytesExpected: Int) {
+        // Prints the percentage of the transfer that's been downloaded
         print("\(Double(totalBytesReceived) / Double(totalBytesExpected) * 100)%")
     }
 }
@@ -51,13 +52,6 @@ try await URLSession.shared.flock(
     from: URL(string: "http://212.183.159.230/1GB.zip")!, 
     progressDelegate: ExampleProgressDelegate()
 )
-
-// Output:
-// 1.25%
-// ...
-// 50.0%
-// ...
-// 100.0%
 ```
 
 ## Benchmarks
