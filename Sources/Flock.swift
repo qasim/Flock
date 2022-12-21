@@ -10,6 +10,14 @@ public final class Flock {
     public weak var progressDelegate: FlockProgressDelegate?
     var progress: Progress?
 
+    /// Creates an object that can download a file from a remote source request.
+    ///
+    /// - Parameters:
+    ///     - context:               an outside context (configuration, dependencies, etc.) for inside methods to use.
+    ///     - remoteSourceRequest:   a request to download.
+    ///     - connectionCount:       the maximum number of connections to create in parallel.
+    ///     - minimumConnectionSize: the minimum size, in bytes, for each connection.
+    ///     - progressDelegate:      a delegate that receives progress updates for the download.
     public init(
         context: Context,
         remoteSourceRequest: URLRequest,
@@ -28,6 +36,13 @@ public final class Flock {
         self.progressDelegate = progressDelegate
     }
 
+    /// Downloads the file.
+    ///
+    /// If the source supports the `Range` header, the file will be downloaded
+    /// in parallel using multiple connections based on the given parameters.
+    ///
+    /// - Returns: an asynchronously-delivered tuple that contains the location of the downloaded file as an `URL`, and
+    ///            an `URLResponse`.
     public func download() async throws -> (URL, URLResponse) {
         var headRequest = remoteSourceRequest
         headRequest.httpMethod = "HEAD"
@@ -111,7 +126,10 @@ public final class Flock {
                 do {
                     try context.fileManager.removeItem(at: partitionURL)
                 } catch {
-                    context.log.warning("Failed to delete partition", metadata: ["url": "\(partitionURL)", "error": "\(error)"])
+                    context.log.warning(
+                        "Failed to delete partition",
+                        metadata: ["url": "\(partitionURL)", "error": "\(error)"]
+                    )
                 }
             }
         }
