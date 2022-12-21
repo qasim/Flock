@@ -22,7 +22,7 @@ extension Flock {
             }
             self.log = Logger(label: "Flock")
             self.log.logLevel = logLevel
-            self.log.info("Logger initialized")
+            self.log.debug("Logger initialized")
 
             self.session = session
         }
