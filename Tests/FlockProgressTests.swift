@@ -19,12 +19,23 @@ final class FlockProgressTests: XCTestCase {
         }
 
         XCTAssertEqual(testProgressDelegate.numberOfCalls, 80)
+        XCTAssertEqual(testProgressDelegate.totalBytesReceived, testProgressDelegate.totalBytesExpected)
     }
 }
 
 private class TestProgressDelegate: FlockProgressDelegate {
     var numberOfCalls: Int = 0
-    func request(_ request: URLRequest, didRecieveBytes bytesReceived: Int, totalBytesReceived: Int, totalBytesExpected: Int) {
+    var totalBytesReceived: Int!
+    var totalBytesExpected: Int!
+
+    func request(
+        _ request: URLRequest,
+        didRecieveBytes bytesReceived: Int,
+        totalBytesReceived: Int,
+        totalBytesExpected: Int
+    ) {
         numberOfCalls += 1
+        self.totalBytesReceived = totalBytesReceived
+        self.totalBytesExpected = totalBytesExpected
     }
 }

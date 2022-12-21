@@ -2,7 +2,7 @@ import XCTest
 @testable import Flock
 
 final class IntPartitionTests: XCTestCase {
-    func testSingleCases() async throws {
+    func testSingleCases() {
         XCTAssertEqual(
             1.ranges(whenSplitUpTo: 1),
             [0...0]
@@ -17,7 +17,7 @@ final class IntPartitionTests: XCTestCase {
         )
     }
 
-    func testSmallPartitions() async throws {
+    func testSmallPartitions() {
         XCTAssertEqual(
             3.ranges(whenSplitUpTo: 3),
             [0...0, 1...1, 2...2]
@@ -32,7 +32,7 @@ final class IntPartitionTests: XCTestCase {
         )
     }
 
-    func testLargePartitions() async throws {
+    func testLargePartitions() {
         XCTAssertEqual(
             100.ranges(whenSplitUpTo: 3),
             [0...32, 33...65, 66...99]
@@ -51,7 +51,7 @@ final class IntPartitionTests: XCTestCase {
         )
     }
 
-    func testMinimumPartitionSizes() async throws {
+    func testMinimumPartitionSizes() {
         XCTAssertEqual(
             100.ranges(whenSplitUpTo: 3, minimumPartitionSize: 50),
             [0...49, 50...99]
