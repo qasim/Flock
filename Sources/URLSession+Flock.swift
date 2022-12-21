@@ -3,7 +3,7 @@ import Foundation
 extension URLSession {
     public func flock(
         from remoteSource: URL,
-        numberOfConnections connectionCount: Int = 8,
+        numberOfConnections connectionCount: Int = ProcessInfo.processInfo.activeProcessorCount,
         minimumConnectionSize: Int = 16_777_216,
         progressDelegate: FlockProgressDelegate? = nil,
         isDebug: Bool = false
@@ -19,7 +19,7 @@ extension URLSession {
 
     public func flock(
         from remoteSourceRequest: URLRequest,
-        numberOfConnections connectionCount: Int = 8,
+        numberOfConnections connectionCount: Int = ProcessInfo.processInfo.activeProcessorCount,
         minimumConnectionSize: Int = 16_777_216,
         progressDelegate: FlockProgressDelegate? = nil,
         isDebug: Bool = false
