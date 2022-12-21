@@ -40,6 +40,10 @@ extension URLSession {
             }
         }
 
+        defer {
+            try? destinationHandle.close()
+        }
+
         return (destinationURL, response)
     }
 }
