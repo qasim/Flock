@@ -12,15 +12,9 @@ jobs:
 
     - name: Checkout
       uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
 
     - name: Switch branch to `docs-preview`
-      run: git checkout docs-preview
-
-    - name: Merge `main` branch into `docs-preview`
-      run: |
-        git merge origin/main --strategy-option theirs
+      run: git switch -C docs-preview
 
     - name: Build documentation
       run: |
