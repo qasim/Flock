@@ -35,4 +35,7 @@ jobs:
       with:
         branch: docs-preview
         base: docs
-        commit-message: Update generated documentation
+        commit-message: Regenerate documentation
+        title: Regenerate documentation
+        body: |
+          Regenerated documentation website files based off of the latest changes in `main`.
