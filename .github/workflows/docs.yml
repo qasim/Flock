@@ -10,3 +10,34 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
+    - name: Switch branch to `docs/preview`
+      run: git checkout docs/preview
+
+    - name: Merge `main` branch into `docs/preview`
+      run: git merge main --no-ff
+
+    - name: Build documentation
+      run: |
+        xcodebuild docbuild \
+        -toolchain org.swift.57202212191a \
+        -destination 'platform=macos' \
+        -scheme Flock \
+        -derivedDataPath FlockBuild \
+        OTHER_SWIFT_FLAGS="-emit-extension-block-symbols"
+        
+    - name: Arrange files
+      run: |
+        rm -rf Documentation/Flock.doccarchive
+        mkdir -p Documentation/Flock.doccarchive
+        mv FlockBuild/Build/Products/Debug/Flock.doccarchive/* Documentation/Flock.doccarchive
+        rm -rf FlockBuild
+
+    - name: Create pull request
+      uses: peter-evans/create-pull-request@v4
+      with:
+        branch: docs/preview
+        base: docs
+        commit-message: Update generated documentation
