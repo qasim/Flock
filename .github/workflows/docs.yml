@@ -14,8 +14,8 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
-    - name: Switch branch to `docs-preview`
-      run: git switch -C docs-preview
+    - name: Switch branch to `docs`
+      run: git switch -C docs
 
     - name: Build documentation
       run: |
@@ -31,11 +31,8 @@ jobs:
         mkdir -p Documentation/Flock.doccarchive
         mv FlockBuild/Build/Products/Debug/Flock.doccarchive/* Documentation/Flock.doccarchive
 
-    - name: Create pull request
-      uses: peter-evans/create-pull-request@v4
-      with:
-        branch: docs-preview
-        base: docs
-        commit-message: Regenerate documentation
-        title: Regenerate documentation
-        body: Regenerated documentation website files based off of the latest changes in `main`.
+    - name: Push changes
+      run: |
+        git add .
+        git commit -m "Generate documentation"
+        git push -f
