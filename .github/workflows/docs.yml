@@ -28,7 +28,7 @@ jobs:
     - name: Build documentation
       run: |
         xcodebuild docbuild \
-        -toolchain org.swift.57202212191a \
+        -toolchain org.swift.57202212211a \
         -destination 'platform=macos' \
         -scheme Flock \
         -derivedDataPath FlockBuild \
@@ -43,4 +43,4 @@ jobs:
       run: |
         git add .
         git commit -m "Generate documentation"
-        git push -f
+        git push -f origin docs
