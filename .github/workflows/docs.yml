@@ -16,10 +16,9 @@ jobs:
     - name: Switch branch to `docs-preview`
       run: git checkout docs-preview
 
-    - name: Merge `main` and `docs` branches into `docs-preview`
+    - name: Merge `main` branch into `docs-preview`
       run: |
-        git merge origin/docs --no-ff
-        git merge origin/main --no-ff
+        git merge origin/main
 
     - name: Build documentation
       run: |
@@ -29,7 +28,7 @@ jobs:
         -scheme Flock \
         -derivedDataPath FlockBuild \
         OTHER_SWIFT_FLAGS="-emit-extension-block-symbols"
-        
+
     - name: Arrange files
       run: |
         rm -rf Documentation/Flock.doccarchive
