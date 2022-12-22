@@ -27,10 +27,8 @@ jobs:
 
     - name: Arrange files
       run: |
-        rm -rf Documentation/Flock.doccarchive
         mkdir -p Documentation/Flock.doccarchive
         mv FlockBuild/Build/Products/Debug/Flock.doccarchive/* Documentation/Flock.doccarchive
-        rm -rf FlockBuild
 
     - name: Create pull request
       uses: peter-evans/create-pull-request@v4
