@@ -22,6 +22,9 @@ jobs:
     - name: Switch branch to `docs`
       run: git switch -C docs
 
+    - name: Reset package cache
+      run: swift package reset
+
     - name: Build documentation
       run: |
         xcodebuild docbuild \
