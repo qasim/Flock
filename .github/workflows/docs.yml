@@ -18,7 +18,7 @@ jobs:
 
     - name: Merge `main` branch into `docs-preview`
       run: |
-        git merge origin/main --allow-unrelated-histories
+        git merge origin/main --allow-unrelated-histories --strategy-option theirs
 
     - name: Build documentation
       run: |
