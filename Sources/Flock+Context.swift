@@ -2,6 +2,7 @@ import Foundation
 import Logging
 
 extension Flock {
+    /// A structure containing configuration and dependencies for Flock to reference.
     public struct Context {
         let fileManager: FileManager
         var log: Logger
@@ -9,14 +10,11 @@ extension Flock {
 
         private static var isLoggingSystemBootstrapped: Bool = false
 
-        /// Creates a structure which provides an outside context (configuration, dependencies, etc.) for inside
-        /// methods to use.
-        ///
         /// - Parameters:
-        ///     - fileManager: the `FileManager` instance to use. The default is `FileManager.default`.
-        ///     - logLevel:    the minimum log level required for printing messages to standard output. The default is
-        ///                    `Logger.Level.critical`.
-        ///     - session:     the `URLSession` instance to use. The default is `URLSession.shared`.
+        ///     - fileManager: The `FileManager` instance to use. The default is `.default`.
+        ///     - logLevel:    The minimum log level required for printing messages to standard output. The default is
+        ///                    `.critical`.
+        ///     - session:     The `URLSession` instance to use. The default is `.shared`.
         public init(
             fileManager: FileManager = .default,
             logLevel: Logger.Level = .critical,

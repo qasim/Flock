@@ -1,23 +1,24 @@
 import Foundation
 import Logging
 
+/// An object that coordinates the parallel downloading of a file.
 public final class Flock {
     var context: Context
     let remoteSourceRequest: URLRequest
     let connectionCount: Int
     let minimumConnectionSize: Int
 
-    public weak var progressDelegate: FlockProgressDelegate?
+    /// The delegate assigned when this object was created.
+    public private(set) weak var progressDelegate: FlockProgressDelegate?
+
     var progress: Progress?
 
-    /// Creates an object that can download a file from a remote source request.
-    ///
     /// - Parameters:
-    ///     - context:               an outside context (configuration, dependencies, etc.) for inside methods to use.
-    ///     - remoteSourceRequest:   a request to download.
-    ///     - connectionCount:       the maximum number of connections to create in parallel.
-    ///     - minimumConnectionSize: the minimum size, in bytes, for each connection.
-    ///     - progressDelegate:      a delegate that receives progress updates for the download.
+    ///     - context:               A structure containing configuration and dependencies for Flock to reference.
+    ///     - remoteSourceRequest:   A request to download.
+    ///     - connectionCount:       The maximum number of connections to create in parallel.
+    ///     - minimumConnectionSize: The minimum size, in bytes, for each connection.
+    ///     - progressDelegate:      A delegate that receives progress updates for the download.
     public init(
         context: Context,
         remoteSourceRequest: URLRequest,
@@ -38,10 +39,10 @@ public final class Flock {
 
     /// Downloads the file.
     ///
-    /// If the source supports the `Range` header, the file will be downloaded
-    /// in parallel using multiple connections based on the given parameters.
+    /// If the remote source request supports the `Range` HTTP header, the file will be downloaded in parallel using
+    /// multiple connections based on the object's properties.
     ///
-    /// - Returns: an asynchronously-delivered tuple that contains the location of the downloaded file as an `URL`, and
+    /// - Returns: An asynchronously-delivered tuple that contains the location of the downloaded file as an `URL`, and
     ///            an `URLResponse`.
     public func download() async throws -> (URL, URLResponse) {
         var headRequest = remoteSourceRequest

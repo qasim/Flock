@@ -1,6 +1,6 @@
 # Flock
 
-Flock is a Swift package for rapidly downloading a file through multiple connections in parallel.
+Flock is a Swift package for rapidly downloading a file from multiple concurrent connections.
 
 ## Installation
 
@@ -25,10 +25,7 @@ Finally, add `import Flock` to your source code.
 
 ## Usage
 
-Flock extends `URLSession` with 2 methods for your convenience, with reasonable defaults:
-
-- [`flock(from remoteSource: URL)`](https://github.com/qasim/Flock/blob/main/Sources/URLSession%2BFlock.swift#L4-L26)
-- [`flock(from remoteSourceRequest: URLRequest)`](https://github.com/qasim/Flock/blob/main/Sources/URLSession%2BFlock.swift#L36-L58)
+Flock [extends `URLSession`](https://flock.qas.im/documentation/flock/foundation/urlsession) for your convenience, with reasonable defaults.
 
 For example, to download a file using as many connections as your machine has [active processors](https://developer.apple.com/documentation/foundation/processinfo/1408184-activeprocessorcount):
 
@@ -53,6 +50,8 @@ try await URLSession.shared.flock(
     progressDelegate: ExampleProgressDelegate()
 )
 ```
+
+For more information, have a look at [Flock's API reference](https://flock.qas.im/).
 
 ## Benchmarks
 
