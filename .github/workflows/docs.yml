@@ -2,24 +2,24 @@ name: Package
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   docs:
     runs-on: self-hosted
+
     steps:
+
     - name: Checkout
       uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
 
     - name: Switch branch to `docs-preview`
       run: git checkout docs-preview
 
     - name: Merge `main` and `docs` branches into `docs-preview`
       run: |
-        git merge main --no-ff
-        git merge docs --no-ff
+        git merge origin/docs --no-ff
+        git merge origin/main --no-ff
 
     - name: Build documentation
       run: |
