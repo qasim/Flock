@@ -20,7 +20,7 @@ jobs:
 
     - name: Merge `main` branch into `docs-preview`
       run: |
-        git merge origin/main --strategy-option theirs
+        git merge origin/main
 
     - name: Build documentation
       run: |
