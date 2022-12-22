@@ -13,11 +13,13 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: Switch branch to `docs/preview`
-      run: git checkout docs/preview
+    - name: Switch branch to `docs-preview`
+      run: git checkout docs-preview
 
-    - name: Merge `main` branch into `docs/preview`
-      run: git merge main --no-ff
+    - name: Merge `main` and `docs` branches into `docs-preview`
+      run: |
+        git merge main --no-ff
+        git merge docs --no-ff
 
     - name: Build documentation
       run: |
@@ -38,6 +40,6 @@ jobs:
     - name: Create pull request
       uses: peter-evans/create-pull-request@v4
       with:
-        branch: docs/preview
+        branch: docs-preview
         base: docs
         commit-message: Update generated documentation
