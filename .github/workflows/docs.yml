@@ -2,7 +2,8 @@ name: Package
 
 on:
   push:
-    branches: ["main"]
+    branches:
+    - "main"
 
 jobs:
   docs:
@@ -37,5 +38,4 @@ jobs:
         base: docs
         commit-message: Regenerate documentation
         title: Regenerate documentation
-        body: |
-          Regenerated documentation website files based off of the latest changes in `main`.
+        body: Regenerated documentation website files based off of the latest changes in `main`.
