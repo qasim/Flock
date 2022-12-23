@@ -12,10 +12,10 @@ extension Flock {
             self.delegate = delegate
         }
 
-        func add(_ bytesReceived: Int, from remoteSourceRequest: URLRequest) {
+        func add(_ bytesReceived: Int, from sourceRequest: URLRequest) {
             totalBytesReceived += bytesReceived
             delegate?.request(
-                remoteSourceRequest,
+                sourceRequest,
                 didReceiveBytes: bytesReceived,
                 totalBytesReceived: totalBytesReceived,
                 totalBytesExpected: totalBytesExpected

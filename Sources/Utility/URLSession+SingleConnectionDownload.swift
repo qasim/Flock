@@ -6,12 +6,12 @@ extension URLSession {
     }
 
     func singleConnectionDownload(
-        from remoteSourceRequest: URLRequest,
+        from sourceRequest: URLRequest,
         using fileManager: FileManager = .default,
         bufferSize: Int = 65_536,
         progress: Flock.Progress?
     ) async throws -> (URL, URLResponse) {
-        let (asyncBytes, response) = try await bytes(for: remoteSourceRequest)
+        let (asyncBytes, response) = try await bytes(for: sourceRequest)
 
         let destinationURL = fileManager.flockTemporaryFile
         guard fileManager.createFile(atPath: destinationURL.backportedPath, contents: nil) else {
@@ -28,7 +28,7 @@ extension URLSession {
                 try destinationHandle.write(contentsOf: buffer)
                 buffer.removeAll(keepingCapacity: true)
                 Task.detached(priority: .utility) {
-                    await progress?.add(bufferSize, from: remoteSourceRequest)
+                    await progress?.add(bufferSize, from: sourceRequest)
                 }
             }
         }
@@ -36,7 +36,7 @@ extension URLSession {
             try destinationHandle.write(contentsOf: buffer)
             let bufferCount = buffer.count
             Task.detached(priority: .utility) {
-                await progress?.add(bufferCount, from: remoteSourceRequest)
+                await progress?.add(bufferCount, from: sourceRequest)
             }
         }
 

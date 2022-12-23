@@ -9,8 +9,8 @@ struct Main: AsyncParsableCommand {
         abstract: "Rapid file download using concurrent connections."
     )
 
-    @Argument(help: "An URL to download.")
-    var remoteSource: String
+    @Argument(help: "The URL to download.")
+    var source: String
 
     @Option(name: .shortAndLong, help: "The maximum number of connections to create in parallel.")
     var connectionCount: Int = ProcessInfo.processInfo.activeProcessorCount
