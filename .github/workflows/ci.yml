@@ -42,6 +42,9 @@ jobs:
       with:
         xcode-version: ${{ env.XCODE_VERSION }}
 
+    - name: Reset package cache
+      run: swift package reset
+
     - name: Generate documentation
       run: |
         xcodebuild docbuild \
