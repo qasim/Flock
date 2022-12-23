@@ -22,6 +22,20 @@ struct Main: AsyncParsableCommand {
     var verbose: Bool = false
 
     mutating func run() async throws {
-        print("TODO")
+        print("Preparing")
+        let (url, _) = try await URLSession.shared.flock(
+            from: URL(string: url)!,
+            numberOfConnections: connectionCount,
+            minimumConnectionSize: minimumConnectionSize,
+            progressDelegate: ProgressDelegate(),
+            isVerbose: verbose
+        )
+        print("\u{1B}[1A\u{1B}[K\(url.path)")
+    }
+}
+
+class ProgressDelegate: FlockProgressDelegate {
+    func request(_ request: URLRequest, didReceiveBytes bytesReceived: Int, totalBytesReceived: Int, totalBytesExpected: Int) {
+        print("\u{1B}[1A\u{1B}[KDownloading: \(totalBytesReceived) / \(totalBytesExpected)")
     }
 }
