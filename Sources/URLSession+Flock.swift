@@ -3,11 +3,11 @@ import Foundation
 extension URLSession {
     /// Downloads a file.
     ///
-    /// If the source `URL` supports the `Range` HTTP header, the file will be partitioned and downloaded using
-    /// multiple concurrent connections based on the given parameters.
+    /// If the `URL` supports the `Range` HTTP header, the file will be partitioned and downloaded using multiple
+    /// concurrent connections based on the given parameters.
     ///
     /// - Parameters:
-    ///     - source:                The `URL` to download.
+    ///     - url:                   The `URL` to download.
     ///     - connectionCount:       The maximum number of connections to create in parallel. The default is
     ///                              `ProcessInfo.processInfo.activeProcessorCount`.
     ///     - minimumConnectionSize: The minimum size, in bytes, for each connection. The default is `16777216`,
@@ -18,14 +18,14 @@ extension URLSession {
     /// - Returns: An asynchronously-delivered tuple that contains the location of the downloaded file as an `URL`, and
     ///            an `URLResponse`.
     public func flock(
-        from source: URL,
+        from url: URL,
         numberOfConnections connectionCount: Int = ProcessInfo.processInfo.activeProcessorCount,
         minimumConnectionSize: Int = 16_777_216,
         progressDelegate: FlockProgressDelegate? = nil,
         isVerbose: Bool = false
     ) async throws -> (URL, URLResponse) {
         try await flock(
-            from: URLRequest(url: source),
+            from: URLRequest(url: url),
             numberOfConnections: connectionCount,
             minimumConnectionSize: minimumConnectionSize,
             progressDelegate: progressDelegate,
@@ -35,11 +35,11 @@ extension URLSession {
 
     /// Downloads a file.
     ///
-    /// If the source `URL` supports the `Range` HTTP header, the file will be partitioned and downloaded using
-    /// multiple concurrent connections based on the given parameters.
+    /// If the `URL` from the request supports the `Range` HTTP header, the file will be partitioned and downloaded
+    /// using multiple concurrent connections based on the given parameters.
     ///
     /// - Parameters:
-    ///     - sourceRequest:         The request to download.
+    ///     - request:               The request to download.
     ///     - connectionCount:       The maximum number of connections to create in parallel. The default is
     ///                              `ProcessInfo.processInfo.activeProcessorCount`.
     ///     - minimumConnectionSize: The minimum size, in bytes, for each connection. The default is `16777216`,
@@ -50,7 +50,7 @@ extension URLSession {
     /// - Returns: An asynchronously-delivered tuple that contains the location of the downloaded file as an `URL`, and
     ///            an `URLResponse`.
     public func flock(
-        from sourceRequest: URLRequest,
+        from request: URLRequest,
         numberOfConnections connectionCount: Int = ProcessInfo.processInfo.activeProcessorCount,
         minimumConnectionSize: Int = 16_777_216,
         progressDelegate: FlockProgressDelegate? = nil,
@@ -62,7 +62,7 @@ extension URLSession {
                     logLevel: isVerbose ? .trace : .critical,
                     session: self
                 ),
-                sourceRequest: sourceRequest,
+                request: request,
                 numberOfConnections: connectionCount,
                 minimumConnectionSize: minimumConnectionSize,
                 progressDelegate: progressDelegate

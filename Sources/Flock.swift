@@ -4,7 +4,7 @@ import Logging
 /// An object that coordinates the partitioning and concurrent downloading of a file.
 public final class Flock {
     var context: Context
-    let sourceRequest: URLRequest
+    let request: URLRequest
     let connectionCount: Int
     let minimumConnectionSize: Int
 
@@ -15,23 +15,23 @@ public final class Flock {
 
     /// - Parameters:
     ///     - context:               A structure containing configuration and dependencies for Flock to reference.
-    ///     - sourceRequest:         The request to download.
+    ///     - request:               The request to download.
     ///     - connectionCount:       The maximum number of connections to create in parallel.
     ///     - minimumConnectionSize: The minimum size, in bytes, for each connection.
     ///     - progressDelegate:      A delegate that receives progress updates for the download.
     public init(
         context: Context,
-        sourceRequest: URLRequest,
+        request: URLRequest,
         numberOfConnections connectionCount: Int,
         minimumConnectionSize: Int,
         progressDelegate: FlockProgressDelegate?
     ) {
-        precondition(sourceRequest.url != nil, "request must have an URL.")
+        precondition(request.url != nil, "request must have an URL.")
 
         self.context = context
-        self.context.log[metadataKey: "source"] = "\(sourceRequest.url!)"
+        self.context.log[metadataKey: "url"] = "\(request.url!)"
 
-        self.sourceRequest = sourceRequest
+        self.request = request
         self.connectionCount = connectionCount
         self.minimumConnectionSize = minimumConnectionSize
         self.progressDelegate = progressDelegate
@@ -39,13 +39,13 @@ public final class Flock {
 
     /// Downloads the file.
     ///
-    /// If the source `URL` supports the `Range` HTTP header, the file will be partitioned and downloaded using
-    /// multiple concurrent connections based on the given parameters.
+    /// If the `URL` supports the `Range` HTTP header, the file will be partitioned and downloaded using multiple
+    /// concurrent connections based on the given parameters.
     ///
     /// - Returns: An asynchronously-delivered tuple that contains the location of the downloaded file as an `URL`, and
     ///            an `URLResponse`.
     public func download() async throws -> (URL, URLResponse) {
-        var headRequest = sourceRequest
+        var headRequest = request
         headRequest.httpMethod = "HEAD"
 
         context.log.debug("Fetching headers")
@@ -60,7 +60,7 @@ public final class Flock {
         guard headResponse.value(forHTTPHeaderField: "Accept-Ranges") == "bytes" else {
             context.log.debug("Range header unsupported, falling back to single-connection download")
             return try await context.session.singleConnectionDownload(
-                from: sourceRequest,
+                from: request,
                 using: context.fileManager,
                 progress: progress
             )
@@ -74,7 +74,7 @@ public final class Flock {
         guard byteRanges.count > 1 else {
             context.log.debug("Partitioning produced only 1 range, falling back to single-connection download")
             return try await context.session.singleConnectionDownload(
-                from: sourceRequest,
+                from: request,
                 using: context.fileManager,
                 progress: progress
             )
@@ -83,7 +83,7 @@ public final class Flock {
         let partitions = byteRanges.map { byteRange in
             Partition(
                 context: context,
-                sourceRequest: sourceRequest,
+                request: request,
                 byteRange: byteRange,
                 progress: progress
             )

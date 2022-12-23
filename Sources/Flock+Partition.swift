@@ -4,26 +4,26 @@ extension Flock {
     class Partition {
         var context: Context
         
-        let sourceRequest: URLRequest
+        let request: URLRequest
         let byteRange: ClosedRange<Int>
         let progress: Progress?
 
         init(
             context: Context,
-            sourceRequest: URLRequest,
+            request: URLRequest,
             byteRange: ClosedRange<Int>,
             progress: Progress?
         ) {
             self.context = context
             self.context.log[metadataKey: "partitionByteRange"] = "\(byteRange)"
 
-            self.sourceRequest = sourceRequest
+            self.request = request
             self.byteRange = byteRange
             self.progress = progress
         }
 
         func download() async throws -> (URL, URLResponse) {
-            var request = sourceRequest
+            var request = request
             request.setValue(
                 "bytes=\(byteRange.lowerBound)-\(byteRange.upperBound)",
                 forHTTPHeaderField: "Range"
