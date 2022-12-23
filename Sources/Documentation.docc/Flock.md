@@ -4,7 +4,7 @@ Rapid file download using concurrent connections.
 
 ## Overview
 
-Flock is a Swift package which provides methods for downloading a single file from multiple connections, by taking advantage of the [`Range`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Range) HTTP header and [Concurrency](https://docs.swift.org/swift-book/LanguageGuide/Concurrency.html).
+Flock is a Swift package which provides methods for downloading a single file from multiple connections, by taking advantage of the [`Range`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Range) HTTP header and [concurrency](https://docs.swift.org/swift-book/LanguageGuide/Concurrency.html).
 
 The objective is to speed up downloads by maximizing core usage and download bandwidth.
 
@@ -18,7 +18,7 @@ For example, to download a file using as many connections as your machine has [a
 try await URLSession.shared.flock(from: URL(string: "http://212.183.159.230/1GB.zip")!)
 ```
 
-To track progress of your download as it transfers, pass a [`FlockProgressDelegate`](https://github.com/qasim/Flock/blob/main/Sources/Flock%2BProgress.swift#L27-L35):
+To track progress of your download as it transfers, pass a [`FlockProgressDelegate`](https://flock.qas.im/documentation/flock/flockprogressdelegate):
 
 ```swift
 class ExampleProgressDelegate: FlockProgressDelegate {
@@ -27,9 +27,8 @@ class ExampleProgressDelegate: FlockProgressDelegate {
         print("\(Double(totalBytesReceived) / Double(totalBytesExpected) * 100)%")
     }
 }
-
-// ...
-
+```
+```swift
 try await URLSession.shared.flock(
     from: URL(string: "http://212.183.159.230/1GB.zip")!, 
     progressDelegate: ExampleProgressDelegate()
