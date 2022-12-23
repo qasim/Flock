@@ -1,6 +1,6 @@
 # ``Flock``
 
-Rapidly download a file from multiple concurrent connections.
+Rapid file download using concurrent connections.
 
 ## Overview
 
