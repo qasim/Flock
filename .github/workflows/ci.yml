@@ -1,0 +1,63 @@
+name: Package
+
+env:
+  XCODE_VERSION: 14.2
+
+on:
+  push:
+    branches:
+    - main
+  pull_request:
+    branches:
+    - main
+
+jobs:
+  test:
+    runs-on: self-hosted
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Setup Xcode
+      uses: maxim-lobanov/setup-xcode@v1
+      with:
+        xcode-version: ${{ env.XCODE_VERSION }}
+
+    - name: Build
+      run: swift build -v
+
+    - name: Test
+      run: swift test -v
+
+  publish-documentation:
+    needs: test
+    if: ${{ github.ref == 'refs/heads/main' }}
+    runs-on: self-hosted
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Setup Xcode
+      uses: maxim-lobanov/setup-xcode@v1
+      with:
+        xcode-version: ${{ env.XCODE_VERSION }}
+
+    - name: Generate documentation
+      run: |
+        xcodebuild docbuild \
+        -toolchain org.swift.57202212211a \
+        -destination 'platform=macos' \
+        -scheme Flock \
+        -derivedDataPath FlockBuild \
+        OTHER_SWIFT_FLAGS="-emit-extension-block-symbols"
+
+    - name: Publish documentation
+      run: |
+        mkdir -p Documentation/Flock.doccarchive
+        mv FlockBuild/Build/Products/Debug/Flock.doccarchive/* Documentation/Flock.doccarchive
+        git config user.name 'github-actions[bot]'
+        git config user.email 'github-actions[bot]@users.noreply.github.com'
+        git switch -C docs
+        git add .
+        git commit -m "Generate documentation"
+        git push -f origin docs
