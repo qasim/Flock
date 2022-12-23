@@ -9,7 +9,7 @@ extension Int {
         precondition(maximumNumberOfPartitions > 0, "values cannot be partitioned less than 1 time.")
         precondition(minimumPartitionSize > 0, "partitions cannot be smaller than 1.")
 
-        var numberOfPartitions = self / minimumPartitionSize
+        var numberOfPartitions = Swift.max(1, self / minimumPartitionSize)
         if numberOfPartitions > maximumNumberOfPartitions {
             numberOfPartitions = maximumNumberOfPartitions
         }

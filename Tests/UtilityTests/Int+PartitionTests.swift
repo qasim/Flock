@@ -64,5 +64,9 @@ final class IntPartitionTests: XCTestCase {
             100.ranges(whenSplitUpTo: 1, minimumPartitionSize: 50),
             [0...99]
         )
+        XCTAssertEqual(
+            100.ranges(whenSplitUpTo: 3, minimumPartitionSize: 1000),
+            [0...99]
+        )
     }
 }
