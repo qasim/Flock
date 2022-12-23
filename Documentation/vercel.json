@@ -2,21 +2,11 @@
   "redirects": [
     {
       "source": "/",
-      "destination": "/documentation/flock"
-    }
-  ],
-  "rewrites": [
-    {
-      "source": "/documentation/(.*)",
-      "destination": "/Flock.doccarchive/index.html"
+      "destination": "/documentation/flock/"
     },
     {
-      "source": "/tutorial/(.*)",
-      "destination": "/Flock.doccarchive/index.html"
-    },
-    {
-      "source": "/:match+",
-      "destination": "/Flock.doccarchive/:match+"
+      "source": "/documentation",
+      "destination": "/documentation/flock/"
     }
   ]
 }
