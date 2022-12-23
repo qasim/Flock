@@ -61,6 +61,9 @@ jobs:
           --output-path Documentation/public \
           --target Flock \
           --include-extended-types \
+          --source-service github \
+          --source-service-base-url https://github.com/qasim/Flock/blob/main \
+          --checkout-path $GITHUB_WORKSPACE \
           --disable-indexing \
           --transform-for-static-hosting
 
