@@ -16,7 +16,7 @@ extension Flock {
             totalBytesReceived += bytesReceived
             delegate?.request(
                 remoteSourceRequest,
-                didRecieveBytes: bytesReceived,
+                didReceiveBytes: bytesReceived,
                 totalBytesReceived: totalBytesReceived,
                 totalBytesExpected: totalBytesExpected
             )
@@ -28,7 +28,7 @@ extension Flock {
 public protocol FlockProgressDelegate: AnyObject {
     func request(
         _ request: URLRequest,
-        didRecieveBytes bytesReceived: Int,
+        didReceiveBytes bytesReceived: Int,
         totalBytesReceived: Int,
         totalBytesExpected: Int
     )

@@ -37,7 +37,7 @@ To track progress of your download as it transfers, pass a [`FlockProgressDelega
 
 ```swift
 class ExampleProgressDelegate: FlockProgressDelegate {
-    func request(_ request: URLRequest, didRecieveBytes bytesReceived: Int, totalBytesReceived: Int, totalBytesExpected: Int) {
+    func request(_ request: URLRequest, didReceiveBytes bytesReceived: Int, totalBytesReceived: Int, totalBytesExpected: Int) {
         // Prints the percentage of the transfer that's been downloaded
         print("\(Double(totalBytesReceived) / Double(totalBytesExpected) * 100)%")
     }

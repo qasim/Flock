@@ -30,7 +30,7 @@ private class TestProgressDelegate: FlockProgressDelegate {
 
     func request(
         _ request: URLRequest,
-        didRecieveBytes bytesReceived: Int,
+        didReceiveBytes bytesReceived: Int,
         totalBytesReceived: Int,
         totalBytesExpected: Int
     ) {

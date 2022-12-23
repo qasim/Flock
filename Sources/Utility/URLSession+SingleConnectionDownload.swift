@@ -27,7 +27,7 @@ extension URLSession {
             if buffer.count == bufferSize {
                 try destinationHandle.write(contentsOf: buffer)
                 buffer.removeAll(keepingCapacity: true)
-                Task.detached {
+                Task.detached(priority: .utility) {
                     await progress?.add(bufferSize, from: remoteSourceRequest)
                 }
             }
@@ -35,7 +35,7 @@ extension URLSession {
         if !buffer.isEmpty {
             try destinationHandle.write(contentsOf: buffer)
             let bufferCount = buffer.count
-            Task.detached {
+            Task.detached(priority: .utility) {
                 await progress?.add(bufferCount, from: remoteSourceRequest)
             }
         }
