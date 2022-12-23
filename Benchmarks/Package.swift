@@ -4,7 +4,7 @@ import PackageDescription
 
 let package = Package(
     name: "Flock.Benchmarks",
-    platforms: [.macOS(.v13)],
+    platforms: [.macOS(.v12)],
     products: [
         .executable(name: "benchmarks", targets: ["Benchmarks"]),
     ],
