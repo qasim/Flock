@@ -1,7 +1,7 @@
 import Foundation
 import Logging
 
-/// An object that coordinates the parallel downloading of a file.
+/// An object that coordinates the partitioning and concurrent downloading of a file.
 public final class Flock {
     var context: Context
     let remoteSourceRequest: URLRequest
@@ -39,8 +39,8 @@ public final class Flock {
 
     /// Downloads the file.
     ///
-    /// If the remote source request supports the `Range` HTTP header, the file will be downloaded in parallel using
-    /// multiple connections based on the object's properties.
+    /// If the remote source supports the `Range` HTTP header, the file will be partitioned and downloaded using
+    /// multiple concurrent connections based on the given parameters.
     ///
     /// - Returns: An asynchronously-delivered tuple that contains the location of the downloaded file as an `URL`, and
     ///            an `URLResponse`.

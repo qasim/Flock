@@ -1,10 +1,10 @@
 import Foundation
 
 extension URLSession {
-    /// Downloads a file from a remote source.
+    /// Downloads a file.
     ///
-    /// If the remote source supports the `Range` HTTP header, the file will be downloaded in parallel using multiple
-    /// connections based on the given parameters.
+    /// If the remote source supports the `Range` HTTP header, the file will be partitioned and downloaded using
+    /// multiple concurrent connections based on the given parameters.
     ///
     /// - Parameters:
     ///     - remoteSource:          An `URL` to download.
@@ -33,10 +33,10 @@ extension URLSession {
         )
     }
 
-    /// Downloads a file from a remote source.
+    /// Downloads a file.
     ///
-    /// If the remote source supports the `Range` header, the file will be downloaded in parallel using multiple
-    /// connections based on the given parameters.
+    /// If the remote source supports the `Range` HTTP header, the file will be partitioned and downloaded using
+    /// multiple concurrent connections based on the given parameters.
     ///
     /// - Parameters:
     ///     - remoteSourceRequest:   A request to download.

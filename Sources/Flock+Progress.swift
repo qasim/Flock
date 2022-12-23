@@ -24,7 +24,8 @@ extension Flock {
     }
 }
 
-/// A protocol that defines methods that Flock instances call on their delegates to handle progress reporting.
+/// A protocol that defines methods that a ``Flock/Flock`` instance calls on their delegate to handle progress
+/// reporting.
 public protocol FlockProgressDelegate: AnyObject {
     func request(
         _ request: URLRequest,
