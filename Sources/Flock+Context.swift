@@ -3,7 +3,7 @@ import Logging
 
 extension Flock {
     /// A structure containing configuration and dependencies for Flock to reference.
-    public struct Context {
+    struct Context {
         let fileManager: FileManager
         var log: Logger
         let session: URLSession
@@ -15,7 +15,7 @@ extension Flock {
         ///     - logLevel:    The minimum log level required for printing messages to standard output. The default is
         ///                    `.critical`.
         ///     - session:     The `URLSession` instance to use. The default is `.shared`.
-        public init(
+        init(
             fileManager: FileManager = .default,
             logLevel: Logger.Level = .critical,
             session: URLSession = .shared

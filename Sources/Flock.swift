@@ -2,14 +2,14 @@ import Foundation
 import Logging
 
 /// An object that coordinates the partitioning and concurrent downloading of a file.
-public final class Flock {
+final class Flock {
     var context: Context
     let request: URLRequest
     let connectionCount: Int
     let minimumConnectionSize: Int
 
     /// The delegate assigned when this object was created.
-    public private(set) weak var progressDelegate: FlockProgressDelegate?
+    private(set) weak var progressDelegate: FlockProgressDelegate?
 
     var progress: Progress?
 
@@ -19,7 +19,7 @@ public final class Flock {
     ///     - connectionCount:       The maximum number of connections to create in parallel.
     ///     - minimumConnectionSize: The minimum size, in bytes, for each connection.
     ///     - progressDelegate:      A delegate that receives progress updates for the download.
-    public init(
+    init(
         context: Context,
         request: URLRequest,
         numberOfConnections connectionCount: Int,
@@ -44,7 +44,7 @@ public final class Flock {
     ///
     /// - Returns: An asynchronously-delivered tuple that contains the location of the downloaded file as an `URL`, and
     ///            an `URLResponse`.
-    public func download() async throws -> (URL, URLResponse) {
+    func download() async throws -> (URL, URLResponse) {
         var headRequest = request
         headRequest.httpMethod = "HEAD"
 

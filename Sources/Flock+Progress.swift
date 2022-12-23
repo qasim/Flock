@@ -24,9 +24,15 @@ extension Flock {
     }
 }
 
-/// A protocol that defines methods that a ``Flock/Flock`` instance calls on their delegate to handle progress
-/// reporting.
+/// A protocol that defines methods that Flock internally calls to communicate the progress of a download.
 public protocol FlockProgressDelegate: AnyObject {
+    /// Called after receiving a new chunk of bytes from a request.
+    ///
+    /// - Parameters:
+    ///     - request:            The request from which the bytes originated from.
+    ///     - bytesReceived:      The number of bytes received from the chunk.
+    ///     - totalBytesReceived: The total number of bytes received so far.
+    ///     - totalBytesExpected: The expected length of the file.
     func request(
         _ request: URLRequest,
         didReceiveBytes bytesReceived: Int,
