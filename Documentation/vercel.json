@@ -2,11 +2,12 @@
   "redirects": [
     {
       "source": "/",
-      "destination": "/documentation/flock/"
+      "destination": "/documentation/flock"
     },
     {
       "source": "/documentation",
-      "destination": "/documentation/flock/"
+      "destination": "/documentation/flock"
     }
-  ]
+  ],
+  "trailingSlash": false
 }
