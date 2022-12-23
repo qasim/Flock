@@ -1,10 +1,16 @@
 # Flock
 
-Flock is a Swift package for rapidly downloading a file from multiple concurrent connections.
+Rapidly download a file from multiple concurrent connections.
+
+## Overview
+
+Flock is a Swift package which provides methods for downloading a single file from multiple connections, by taking advantage of the [`Range`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Range) HTTP header and [Concurrency](https://docs.swift.org/swift-book/LanguageGuide/Concurrency.html).
+
+The objective is to speed up downloads by maximizing core usage and download bandwidth.
 
 ## Installation
 
-Flock can be included in your project via [Swift Package Manager](https://www.swift.org/package-manager/). Add the following line to the dependencies in your `Package.swift` file:
+Flock can be included in your project via [Swift Package Manager](https://www.swift.org/package-manager). Add the following line to the dependencies in your `Package.swift` file:
 
 ```swift
 .package(url: "https://github.com/qasim/Flock", exact: "0.1.0"),
@@ -51,7 +57,7 @@ try await URLSession.shared.flock(
 )
 ```
 
-For more information, have a look at [Flock's API reference](https://flock.qas.im/).
+For more information, have a look at the [Flock API reference](https://flock.qas.im).
 
 ## Benchmarks
 
