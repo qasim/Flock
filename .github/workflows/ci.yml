@@ -11,6 +11,10 @@ on:
     branches:
     - main
 
+concurrency:
+  group: ${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   test:
     runs-on: self-hosted
