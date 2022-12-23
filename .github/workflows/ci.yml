@@ -45,19 +45,23 @@ jobs:
     - name: Reset package cache
       run: swift package reset
 
+    - name: Reset public directory
+      run: rm -rf Documentation/public/*
+
     - name: Generate documentation
       run: |
-        xcodebuild docbuild \
-        -toolchain org.swift.57202212211a \
-        -destination 'platform=macos' \
-        -scheme Flock \
-        -derivedDataPath FlockBuild \
-        OTHER_SWIFT_FLAGS="-emit-extension-block-symbols"
+        export TOOLCHAINS=swift
+        swift package \
+          --allow-writing-to-directory Documentation/public \
+          generate-documentation \
+          --output-path Documentation/public \
+          --target Flock \
+          --include-extended-types \
+          --disable-indexing \
+          --transform-for-static-hosting
 
     - name: Publish documentation
       run: |
-        mkdir -p Documentation/Flock.doccarchive
-        mv FlockBuild/Build/Products/Debug/Flock.doccarchive/* Documentation/Flock.doccarchive
         git config user.name 'github-actions[bot]'
         git config user.email 'github-actions[bot]@users.noreply.github.com'
         git switch -C docs
