@@ -1,6 +1,6 @@
 # Flock
 
-Rapid file download using concurrent connections.
+> Rapid file download using concurrent connections
 
 ## Overview
 
