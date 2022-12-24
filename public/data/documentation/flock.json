@@ -246,75 +246,6 @@
           ],
           "syntax" : "swift",
           "type" : "codeListing"
-        },
-        {
-          "anchor" : "Benchmarks",
-          "level" : 2,
-          "text" : "Benchmarks",
-          "type" : "heading"
-        },
-        {
-          "inlineContent" : [
-            {
-              "text" : "TODO",
-              "type" : "text"
-            }
-          ],
-          "type" : "paragraph"
-        },
-        {
-          "anchor" : "CLI",
-          "level" : 2,
-          "text" : "CLI",
-          "type" : "heading"
-        },
-        {
-          "inlineContent" : [
-            {
-              "text" : "Flock also provides a ",
-              "type" : "text"
-            },
-            {
-              "identifier" : "\/documentation\/flock\/cli",
-              "isActive" : true,
-              "type" : "reference"
-            },
-            {
-              "text" : " for downloading files inside a shell.",
-              "type" : "text"
-            }
-          ],
-          "type" : "paragraph"
-        },
-        {
-          "anchor" : "Contributing",
-          "level" : 2,
-          "text" : "Contributing",
-          "type" : "heading"
-        },
-        {
-          "inlineContent" : [
-            {
-              "text" : "TODO",
-              "type" : "text"
-            }
-          ],
-          "type" : "paragraph"
-        },
-        {
-          "anchor" : "Disclaimer",
-          "level" : 2,
-          "text" : "Disclaimer",
-          "type" : "heading"
-        },
-        {
-          "inlineContent" : [
-            {
-              "text" : "TODO",
-              "type" : "text"
-            }
-          ],
-          "type" : "paragraph"
         }
       ],
       "kind" : "content"
@@ -329,13 +260,6 @@
 
   ],
   "topicSections" : [
-    {
-      "generated" : true,
-      "identifiers" : [
-        "doc:\/\/Flock\/documentation\/Flock\/CLI"
-      ],
-      "title" : "Articles"
-    },
     {
       "identifiers" : [
         "doc:\/\/Flock\/documentation\/Flock\/FlockProgressDelegate"
@@ -363,18 +287,6 @@
   ]
 , 
 "references": {
-"/documentation/flock/cli": {
-  "identifier" : "\/documentation\/flock\/cli",
-  "title" : "command-line interface",
-  "titleInlineContent" : [
-    {
-      "text" : "command-line interface",
-      "type" : "text"
-    }
-  ],
-  "type" : "link",
-  "url" : "\/documentation\/flock\/cli"
-},
 "doc://Flock/documentation/Flock": {
   "abstract" : [
     {
@@ -388,17 +300,6 @@
   "title" : "Flock",
   "type" : "topic",
   "url" : "\/documentation\/flock"
-},
-"doc://Flock/documentation/Flock/CLI": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/Flock\/documentation\/Flock\/CLI",
-  "kind" : "article",
-  "role" : "article",
-  "title" : "CLI",
-  "type" : "topic",
-  "url" : "\/documentation\/flock\/cli"
 },
 "doc://Flock/documentation/Flock/FlockProgressDelegate": {
   "abstract" : [
