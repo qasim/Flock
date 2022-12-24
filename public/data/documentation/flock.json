@@ -41,7 +41,7 @@
         {
           "inlineContent" : [
             {
-              "text" : "Flock is a Swift package which provides methods for downloading a single file from multiple connections, by taking advantage of the ",
+              "text" : "Flock is a Swift package which provides methods for downloading a file from multiple connections, by taking advantage of the ",
               "type" : "text"
             },
             {
@@ -54,7 +54,7 @@
               "type" : "text"
             },
             {
-              "identifier" : "https:\/\/docs.swift.org\/swift-book\/LanguageGuide\/Concurrency.html",
+              "identifier" : "https:\/\/docs.swift.org\/swift-book\/LanguageGuide\/Concurrency.html#ID642",
               "isActive" : true,
               "type" : "reference"
             },
@@ -101,7 +101,7 @@
         {
           "inlineContent" : [
             {
-              "text" : "For example, to download a file using as many connections as your machine has ",
+              "text" : "For example, to download a file using up to as many connections as there are ",
               "type" : "text"
             },
             {
@@ -130,7 +130,7 @@
               "type" : "text"
             },
             {
-              "identifier" : "https:\/\/flock.qas.im\/documentation\/flock\/flockprogressdelegate",
+              "identifier" : "\/documentation\/flock\/flockprogressdelegate",
               "isActive" : true,
               "type" : "reference"
             },
@@ -144,9 +144,8 @@
         {
           "code" : [
             "class ExampleProgressDelegate: FlockProgressDelegate {",
-            "    func request(_ request: URLRequest, didReceiveBytes bytesReceived: Int, totalBytesReceived: Int, totalBytesExpected: Int) {",
-            "        \/\/ Prints the percentage of the transfer that's been downloaded",
-            "        print(\"\\(Double(totalBytesReceived) \/ Double(totalBytesExpected) * 100)%\")",
+            "    func request(_ request: URLRequest, didReceiveBytes bytesReceived: Int, totalBytesReceived: Int, totalBytesExpected: Int?) {",
+            "        print(\"\\(totalBytesReceived) bytes downloaded\")",
             "    }",
             "}"
           ],
@@ -203,6 +202,18 @@
   ]
 , 
 "references": {
+"/documentation/flock/flockprogressdelegate": {
+  "identifier" : "\/documentation\/flock\/flockprogressdelegate",
+  "title" : "FlockProgressDelegate",
+  "titleInlineContent" : [
+    {
+      "code" : "FlockProgressDelegate",
+      "type" : "codeVoice"
+    }
+  ],
+  "type" : "link",
+  "url" : "\/documentation\/flock\/flockprogressdelegate"
+},
 "/documentation/flock/foundation/urlsession": {
   "identifier" : "\/documentation\/flock\/foundation\/urlsession",
   "title" : "extends URLSession",
@@ -302,29 +313,17 @@
   "type" : "link",
   "url" : "https:\/\/developer.mozilla.org\/en-US\/docs\/Web\/HTTP\/Headers\/Range"
 },
-"https://docs.swift.org/swift-book/LanguageGuide/Concurrency.html": {
-  "identifier" : "https:\/\/docs.swift.org\/swift-book\/LanguageGuide\/Concurrency.html",
-  "title" : "concurrency",
+"https://docs.swift.org/swift-book/LanguageGuide/Concurrency.html#ID642": {
+  "identifier" : "https:\/\/docs.swift.org\/swift-book\/LanguageGuide\/Concurrency.html#ID642",
+  "title" : "structured concurrency",
   "titleInlineContent" : [
     {
-      "text" : "concurrency",
+      "text" : "structured concurrency",
       "type" : "text"
     }
   ],
   "type" : "link",
-  "url" : "https:\/\/docs.swift.org\/swift-book\/LanguageGuide\/Concurrency.html"
-},
-"https://flock.qas.im/documentation/flock/flockprogressdelegate": {
-  "identifier" : "https:\/\/flock.qas.im\/documentation\/flock\/flockprogressdelegate",
-  "title" : "FlockProgressDelegate",
-  "titleInlineContent" : [
-    {
-      "code" : "FlockProgressDelegate",
-      "type" : "codeVoice"
-    }
-  ],
-  "type" : "link",
-  "url" : "https:\/\/flock.qas.im\/documentation\/flock\/flockprogressdelegate"
+  "url" : "https:\/\/docs.swift.org\/swift-book\/LanguageGuide\/Concurrency.html#ID642"
 }
 }
 }
