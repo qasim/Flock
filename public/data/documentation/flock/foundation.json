@@ -1,0 +1,114 @@
+{
+  "hierarchy" : {
+    "paths" : [
+      [
+        "doc:\/\/Flock\/documentation\/Flock"
+      ]
+    ]
+  },
+  "identifier" : {
+    "interfaceLanguage" : "swift",
+    "url" : "doc:\/\/Flock\/documentation\/Flock\/Foundation"
+  },
+  "kind" : "symbol",
+  "metadata" : {
+    "externalID" : "s:m:s:e:s:So12NSURLSessionC5FlockE5flock4from19numberOfConnections21minimumConnectionSize16progressDelegate9isVerbose10Foundation3URLV_So13NSURLResponseCtAL_S2iAC0b8ProgressL0_pSgSbtYaKF",
+    "modules" : [
+      {
+        "name" : "Flock"
+      }
+    ],
+    "role" : "collection",
+    "roleHeading" : "Extended Module",
+    "symbolKind" : "extension",
+    "title" : "Foundation"
+  },
+  "schemaVersion" : {
+    "major" : 0,
+    "minor" : 3,
+    "patch" : 0
+  },
+  "sections" : [
+
+  ],
+  "topicSections" : [
+    {
+      "identifiers" : [
+        "doc:\/\/Flock\/documentation\/Flock\/Foundation\/URLSession"
+      ],
+      "title" : "Extended Classes"
+    }
+  ],
+  "variants" : [
+    {
+      "paths" : [
+        "\/documentation\/flock\/foundation"
+      ],
+      "traits" : [
+        {
+          "interfaceLanguage" : "swift"
+        }
+      ]
+    }
+  ]
+, 
+"references": {
+"doc://Flock/documentation/Flock": {
+  "abstract" : [
+    {
+      "text" : "Rapid file download using concurrent connections",
+      "type" : "text"
+    }
+  ],
+  "identifier" : "doc:\/\/Flock\/documentation\/Flock",
+  "kind" : "symbol",
+  "role" : "collection",
+  "title" : "Flock",
+  "type" : "topic",
+  "url" : "\/documentation\/flock"
+},
+"doc://Flock/documentation/Flock/Foundation": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/Flock\/documentation\/Flock\/Foundation",
+  "kind" : "symbol",
+  "role" : "collection",
+  "title" : "Foundation",
+  "type" : "topic",
+  "url" : "\/documentation\/flock\/foundation"
+},
+"doc://Flock/documentation/Flock/Foundation/URLSession": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "extension"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "preciseIdentifier" : "c:objc(cs)NSURLSession",
+      "text" : "URLSession"
+    }
+  ],
+  "identifier" : "doc:\/\/Flock\/documentation\/Flock\/Foundation\/URLSession",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "URLSession"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "URLSession",
+  "type" : "topic",
+  "url" : "\/documentation\/flock\/foundation\/urlsession"
+}
+}
+}

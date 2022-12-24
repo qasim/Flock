@@ -1,0 +1,330 @@
+{
+  "abstract" : [
+    {
+      "text" : "Rapid file download using concurrent connections",
+      "type" : "text"
+    }
+  ],
+  "hierarchy" : {
+    "paths" : [
+      [
+
+      ]
+    ]
+  },
+  "identifier" : {
+    "interfaceLanguage" : "swift",
+    "url" : "doc:\/\/Flock\/documentation\/Flock"
+  },
+  "kind" : "symbol",
+  "metadata" : {
+    "externalID" : "Flock",
+    "modules" : [
+      {
+        "name" : "Flock"
+      }
+    ],
+    "role" : "collection",
+    "roleHeading" : "Framework",
+    "symbolKind" : "module",
+    "title" : "Flock"
+  },
+  "primaryContentSections" : [
+    {
+      "content" : [
+        {
+          "anchor" : "Overview",
+          "level" : 2,
+          "text" : "Overview",
+          "type" : "heading"
+        },
+        {
+          "inlineContent" : [
+            {
+              "text" : "Flock is a Swift package which provides methods for downloading a single file from multiple connections, by taking advantage of the ",
+              "type" : "text"
+            },
+            {
+              "identifier" : "https:\/\/developer.mozilla.org\/en-US\/docs\/Web\/HTTP\/Headers\/Range",
+              "isActive" : true,
+              "type" : "reference"
+            },
+            {
+              "text" : " HTTP header and ",
+              "type" : "text"
+            },
+            {
+              "identifier" : "https:\/\/docs.swift.org\/swift-book\/LanguageGuide\/Concurrency.html",
+              "isActive" : true,
+              "type" : "reference"
+            },
+            {
+              "text" : ".",
+              "type" : "text"
+            }
+          ],
+          "type" : "paragraph"
+        },
+        {
+          "inlineContent" : [
+            {
+              "text" : "The objective is to speed up downloads by maximizing core usage and download bandwidth.",
+              "type" : "text"
+            }
+          ],
+          "type" : "paragraph"
+        },
+        {
+          "anchor" : "Usage",
+          "level" : 2,
+          "text" : "Usage",
+          "type" : "heading"
+        },
+        {
+          "inlineContent" : [
+            {
+              "text" : "Flock ",
+              "type" : "text"
+            },
+            {
+              "identifier" : "\/documentation\/flock\/foundation\/urlsession",
+              "isActive" : true,
+              "type" : "reference"
+            },
+            {
+              "text" : " for your convenience, with reasonable defaults.",
+              "type" : "text"
+            }
+          ],
+          "type" : "paragraph"
+        },
+        {
+          "inlineContent" : [
+            {
+              "text" : "For example, to download a file using as many connections as your machine has ",
+              "type" : "text"
+            },
+            {
+              "identifier" : "https:\/\/developer.apple.com\/documentation\/foundation\/processinfo\/1408184-activeprocessorcount",
+              "isActive" : true,
+              "type" : "reference"
+            },
+            {
+              "text" : ":",
+              "type" : "text"
+            }
+          ],
+          "type" : "paragraph"
+        },
+        {
+          "code" : [
+            "try await URLSession.shared.flock(from: URL(string: \"http:\/\/212.183.159.230\/1GB.zip\")!)"
+          ],
+          "syntax" : "swift",
+          "type" : "codeListing"
+        },
+        {
+          "inlineContent" : [
+            {
+              "text" : "To track progress of your download as it transfers, pass a ",
+              "type" : "text"
+            },
+            {
+              "identifier" : "https:\/\/flock.qas.im\/documentation\/flock\/flockprogressdelegate",
+              "isActive" : true,
+              "type" : "reference"
+            },
+            {
+              "text" : ":",
+              "type" : "text"
+            }
+          ],
+          "type" : "paragraph"
+        },
+        {
+          "code" : [
+            "class ExampleProgressDelegate: FlockProgressDelegate {",
+            "    func request(_ request: URLRequest, didReceiveBytes bytesReceived: Int, totalBytesReceived: Int, totalBytesExpected: Int) {",
+            "        \/\/ Prints the percentage of the transfer that's been downloaded",
+            "        print(\"\\(Double(totalBytesReceived) \/ Double(totalBytesExpected) * 100)%\")",
+            "    }",
+            "}"
+          ],
+          "syntax" : "swift",
+          "type" : "codeListing"
+        },
+        {
+          "code" : [
+            "try await URLSession.shared.flock(",
+            "    from: URL(string: \"http:\/\/212.183.159.230\/1GB.zip\")!, ",
+            "    progressDelegate: ExampleProgressDelegate()",
+            ")"
+          ],
+          "syntax" : "swift",
+          "type" : "codeListing"
+        }
+      ],
+      "kind" : "content"
+    }
+  ],
+  "schemaVersion" : {
+    "major" : 0,
+    "minor" : 3,
+    "patch" : 0
+  },
+  "sections" : [
+
+  ],
+  "topicSections" : [
+    {
+      "identifiers" : [
+        "doc:\/\/Flock\/documentation\/Flock\/FlockProgressDelegate"
+      ],
+      "title" : "Protocols"
+    },
+    {
+      "identifiers" : [
+        "doc:\/\/Flock\/documentation\/Flock\/Foundation"
+      ],
+      "title" : "Extended Modules"
+    }
+  ],
+  "variants" : [
+    {
+      "paths" : [
+        "\/documentation\/flock"
+      ],
+      "traits" : [
+        {
+          "interfaceLanguage" : "swift"
+        }
+      ]
+    }
+  ]
+, 
+"references": {
+"/documentation/flock/foundation/urlsession": {
+  "identifier" : "\/documentation\/flock\/foundation\/urlsession",
+  "title" : "extends URLSession",
+  "titleInlineContent" : [
+    {
+      "text" : "extends ",
+      "type" : "text"
+    },
+    {
+      "code" : "URLSession",
+      "type" : "codeVoice"
+    }
+  ],
+  "type" : "link",
+  "url" : "\/documentation\/flock\/foundation\/urlsession"
+},
+"doc://Flock/documentation/Flock": {
+  "abstract" : [
+    {
+      "text" : "Rapid file download using concurrent connections",
+      "type" : "text"
+    }
+  ],
+  "identifier" : "doc:\/\/Flock\/documentation\/Flock",
+  "kind" : "symbol",
+  "role" : "collection",
+  "title" : "Flock",
+  "type" : "topic",
+  "url" : "\/documentation\/flock"
+},
+"doc://Flock/documentation/Flock/FlockProgressDelegate": {
+  "abstract" : [
+    {
+      "text" : "A protocol that defines methods that Flock internally calls to communicate the progress of a download.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "protocol"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "FlockProgressDelegate"
+    }
+  ],
+  "identifier" : "doc:\/\/Flock\/documentation\/Flock\/FlockProgressDelegate",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "FlockProgressDelegate"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "FlockProgressDelegate",
+  "type" : "topic",
+  "url" : "\/documentation\/flock\/flockprogressdelegate"
+},
+"doc://Flock/documentation/Flock/Foundation": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/Flock\/documentation\/Flock\/Foundation",
+  "kind" : "symbol",
+  "role" : "collection",
+  "title" : "Foundation",
+  "type" : "topic",
+  "url" : "\/documentation\/flock\/foundation"
+},
+"https://developer.apple.com/documentation/foundation/processinfo/1408184-activeprocessorcount": {
+  "identifier" : "https:\/\/developer.apple.com\/documentation\/foundation\/processinfo\/1408184-activeprocessorcount",
+  "title" : "active processors",
+  "titleInlineContent" : [
+    {
+      "text" : "active processors",
+      "type" : "text"
+    }
+  ],
+  "type" : "link",
+  "url" : "https:\/\/developer.apple.com\/documentation\/foundation\/processinfo\/1408184-activeprocessorcount"
+},
+"https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Range": {
+  "identifier" : "https:\/\/developer.mozilla.org\/en-US\/docs\/Web\/HTTP\/Headers\/Range",
+  "title" : "Range",
+  "titleInlineContent" : [
+    {
+      "code" : "Range",
+      "type" : "codeVoice"
+    }
+  ],
+  "type" : "link",
+  "url" : "https:\/\/developer.mozilla.org\/en-US\/docs\/Web\/HTTP\/Headers\/Range"
+},
+"https://docs.swift.org/swift-book/LanguageGuide/Concurrency.html": {
+  "identifier" : "https:\/\/docs.swift.org\/swift-book\/LanguageGuide\/Concurrency.html",
+  "title" : "concurrency",
+  "titleInlineContent" : [
+    {
+      "text" : "concurrency",
+      "type" : "text"
+    }
+  ],
+  "type" : "link",
+  "url" : "https:\/\/docs.swift.org\/swift-book\/LanguageGuide\/Concurrency.html"
+},
+"https://flock.qas.im/documentation/flock/flockprogressdelegate": {
+  "identifier" : "https:\/\/flock.qas.im\/documentation\/flock\/flockprogressdelegate",
+  "title" : "FlockProgressDelegate",
+  "titleInlineContent" : [
+    {
+      "code" : "FlockProgressDelegate",
+      "type" : "codeVoice"
+    }
+  ],
+  "type" : "link",
+  "url" : "https:\/\/flock.qas.im\/documentation\/flock\/flockprogressdelegate"
+}
+}
+}

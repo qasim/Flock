@@ -1,0 +1,74 @@
+{
+  "interfaceLanguages" : {
+    "swift" : [
+      {
+        "children" : [
+          {
+            "title" : "Protocols",
+            "type" : "groupMarker"
+          },
+          {
+            "children" : [
+              {
+                "title" : "Instance Methods",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/flock\/flockprogressdelegate\/request(_:didreceivebytes:totalbytesreceived:totalbytesexpected:)",
+                "title" : "func request(URLRequest, didReceiveBytes: Int, totalBytesReceived: Int, totalBytesExpected: Int?)",
+                "type" : "method"
+              }
+            ],
+            "path" : "\/documentation\/flock\/flockprogressdelegate",
+            "title" : "FlockProgressDelegate",
+            "type" : "protocol"
+          },
+          {
+            "title" : "Extended Modules",
+            "type" : "groupMarker"
+          },
+          {
+            "children" : [
+              {
+                "title" : "Extended Classes",
+                "type" : "groupMarker"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Methods",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/flock\/foundation\/urlsession\/flock(from:numberofconnections:minimumconnectionsize:progressdelegate:isverbose:)-4alce",
+                    "title" : "func flock(from: URL, numberOfConnections: Int, minimumConnectionSize: Int, progressDelegate: FlockProgressDelegate?, isVerbose: Bool) async throws -> (URL, URLResponse)",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/flock\/foundation\/urlsession\/flock(from:numberofconnections:minimumconnectionsize:progressdelegate:isverbose:)-67tbw",
+                    "title" : "func flock(from: URLRequest, numberOfConnections: Int, minimumConnectionSize: Int, progressDelegate: FlockProgressDelegate?, isVerbose: Bool) async throws -> (URL, URLResponse)",
+                    "type" : "method"
+                  }
+                ],
+                "path" : "\/documentation\/flock\/foundation\/urlsession",
+                "title" : "URLSession",
+                "type" : "extension"
+              }
+            ],
+            "path" : "\/documentation\/flock\/foundation",
+            "title" : "Foundation",
+            "type" : "extension"
+          }
+        ],
+        "path" : "\/documentation\/flock",
+        "title" : "Flock",
+        "type" : "module"
+      }
+    ]
+  },
+  "schemaVersion" : {
+    "major" : 0,
+    "minor" : 1,
+    "patch" : 1
+  }
+}

@@ -1,0 +1,261 @@
+{
+  "abstract" : [
+    {
+      "text" : "A protocol that defines methods that Flock internally calls to communicate the progress of a download.",
+      "type" : "text"
+    }
+  ],
+  "hierarchy" : {
+    "paths" : [
+      [
+        "doc:\/\/Flock\/documentation\/Flock"
+      ]
+    ]
+  },
+  "identifier" : {
+    "interfaceLanguage" : "swift",
+    "url" : "doc:\/\/Flock\/documentation\/Flock\/FlockProgressDelegate"
+  },
+  "kind" : "symbol",
+  "metadata" : {
+    "externalID" : "s:5Flock0A16ProgressDelegateP",
+    "fragments" : [
+      {
+        "kind" : "keyword",
+        "text" : "protocol"
+      },
+      {
+        "kind" : "text",
+        "text" : " "
+      },
+      {
+        "kind" : "identifier",
+        "text" : "FlockProgressDelegate"
+      }
+    ],
+    "modules" : [
+      {
+        "name" : "Flock"
+      }
+    ],
+    "navigatorTitle" : [
+      {
+        "kind" : "identifier",
+        "text" : "FlockProgressDelegate"
+      }
+    ],
+    "remoteSource" : {
+      "fileName" : "Flock+Progress.swift",
+      "url" : "https:\/\/github.com\/qasim\/Flock\/blob\/main\/Sources\/Flock+Progress.swift#L30"
+    },
+    "role" : "symbol",
+    "roleHeading" : "Protocol",
+    "symbolKind" : "protocol",
+    "title" : "FlockProgressDelegate"
+  },
+  "primaryContentSections" : [
+    {
+      "declarations" : [
+        {
+          "languages" : [
+            "swift"
+          ],
+          "platforms" : [
+            "macOS"
+          ],
+          "tokens" : [
+            {
+              "kind" : "keyword",
+              "text" : "protocol"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
+              "kind" : "identifier",
+              "text" : "FlockProgressDelegate"
+            },
+            {
+              "kind" : "text",
+              "text" : " : AnyObject"
+            }
+          ]
+        }
+      ],
+      "kind" : "declarations"
+    }
+  ],
+  "schemaVersion" : {
+    "major" : 0,
+    "minor" : 3,
+    "patch" : 0
+  },
+  "sections" : [
+
+  ],
+  "topicSections" : [
+    {
+      "identifiers" : [
+        "doc:\/\/Flock\/documentation\/Flock\/FlockProgressDelegate\/request(_:didReceiveBytes:totalBytesReceived:totalBytesExpected:)"
+      ],
+      "title" : "Instance Methods"
+    }
+  ],
+  "variants" : [
+    {
+      "paths" : [
+        "\/documentation\/flock\/flockprogressdelegate"
+      ],
+      "traits" : [
+        {
+          "interfaceLanguage" : "swift"
+        }
+      ]
+    }
+  ]
+, 
+"references": {
+"doc://Flock/documentation/Flock": {
+  "abstract" : [
+    {
+      "text" : "Rapid file download using concurrent connections",
+      "type" : "text"
+    }
+  ],
+  "identifier" : "doc:\/\/Flock\/documentation\/Flock",
+  "kind" : "symbol",
+  "role" : "collection",
+  "title" : "Flock",
+  "type" : "topic",
+  "url" : "\/documentation\/flock"
+},
+"doc://Flock/documentation/Flock/FlockProgressDelegate": {
+  "abstract" : [
+    {
+      "text" : "A protocol that defines methods that Flock internally calls to communicate the progress of a download.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "protocol"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "FlockProgressDelegate"
+    }
+  ],
+  "identifier" : "doc:\/\/Flock\/documentation\/Flock\/FlockProgressDelegate",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "FlockProgressDelegate"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "FlockProgressDelegate",
+  "type" : "topic",
+  "url" : "\/documentation\/flock\/flockprogressdelegate"
+},
+"doc://Flock/documentation/Flock/FlockProgressDelegate/request(_:didReceiveBytes:totalBytesReceived:totalBytesExpected:)": {
+  "abstract" : [
+    {
+      "text" : "Called after receiving a new chunk of bytes from a request.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "request"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10Foundation10URLRequestV",
+      "text" : "URLRequest"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "didReceiveBytes"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Si",
+      "text" : "Int"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "totalBytesReceived"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Si",
+      "text" : "Int"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "totalBytesExpected"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Si",
+      "text" : "Int"
+    },
+    {
+      "kind" : "text",
+      "text" : "?)"
+    }
+  ],
+  "identifier" : "doc:\/\/Flock\/documentation\/Flock\/FlockProgressDelegate\/request(_:didReceiveBytes:totalBytesReceived:totalBytesExpected:)",
+  "kind" : "symbol",
+  "required" : true,
+  "role" : "symbol",
+  "title" : "request(_:didReceiveBytes:totalBytesReceived:totalBytesExpected:)",
+  "type" : "topic",
+  "url" : "\/documentation\/flock\/flockprogressdelegate\/request(_:didreceivebytes:totalbytesreceived:totalbytesexpected:)"
+}
+}
+}
