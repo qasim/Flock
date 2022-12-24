@@ -58,14 +58,12 @@ extension URLSession {
     ) async throws -> (URL, URLResponse) {
         try await
             Flock(
-                context: .init(
-                    logLevel: isVerbose ? .trace : .critical,
-                    session: self
-                ),
                 request: request,
                 numberOfConnections: connectionCount,
                 minimumConnectionSize: minimumConnectionSize,
-                progressDelegate: progressDelegate
+                progressDelegate: progressDelegate,
+                logLevel: isVerbose ? .trace : .critical,
+                session: self
             )
             .download()
     }

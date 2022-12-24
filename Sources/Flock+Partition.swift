@@ -1,25 +1,30 @@
 import Foundation
+import Logging
 
 extension Flock {
-    class Partition {
-        var context: Context
-        
+    final class Partition: Sendable {
         let request: URLRequest
         let byteRange: ClosedRange<Int>
         let progress: Progress?
+        let log: Logger
+        let session: URLSession
 
         init(
-            context: Context,
             request: URLRequest,
             byteRange: ClosedRange<Int>,
-            progress: Progress?
+            progress: Progress?,
+            log: Logger,
+            session: URLSession
         ) {
-            self.context = context
-            self.context.log[metadataKey: "partitionByteRange"] = "\(byteRange)"
-
             self.request = request
             self.byteRange = byteRange
             self.progress = progress
+
+            var log = log
+            log[metadataKey: "partitionByteRange"] = "\(byteRange)"
+            self.log = log
+
+            self.session = session
         }
 
         func download() async throws -> (URL, URLResponse) {
@@ -29,12 +34,8 @@ extension Flock {
                 forHTTPHeaderField: "Range"
             )
 
-            context.log.debug("Downloading")
-            return try await context.session.singleConnectionDownload(
-                from: request,
-                using: context.fileManager,
-                progress: progress
-            )
+            log.debug("Downloading")
+            return try await session.singleConnectionDownload(from: request, progress: progress)
         }
     }
 }

@@ -1,12 +1,24 @@
 import Foundation
 
 extension FileManager {
-    var flockTemporaryFile: URL {
+    enum FlockError: Swift.Error {
+        case failedToCreateFile(URL)
+    }
+
+    func flockTemporaryFile() throws -> URL {
         let component = "Flock_\(UUID().uuidString).tmp"
+
+        let url: URL
         if #available(macOS 13.0, *) {
-            return temporaryDirectory.appending(component: component)
+            url = temporaryDirectory.appending(component: component)
         } else {
-            return temporaryDirectory.appendingPathExtension(component)
+            url = temporaryDirectory.appendingPathExtension(component)
         }
+
+        guard createFile(atPath: url.backportedPath, contents: nil) else {
+            throw FlockError.failedToCreateFile(url)
+        }
+
+        return url
     }
 }

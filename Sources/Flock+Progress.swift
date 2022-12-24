@@ -4,17 +4,16 @@ extension Flock {
     actor Progress {
         var totalBytesReceived: Int = 0
         let totalBytesExpected: Int
+        let delegate: SendableFlockProgressDelegate
 
-        weak var delegate: FlockProgressDelegate?
-
-        init(totalBytesExpected: Int, delegate: FlockProgressDelegate?) {
+        init(totalBytesExpected: Int, delegate: SendableFlockProgressDelegate) {
             self.totalBytesExpected = totalBytesExpected
             self.delegate = delegate
         }
 
-        func add(_ bytesReceived: Int, from request: URLRequest) {
+        func add(bytesReceived: Int, from request: URLRequest) {
             totalBytesReceived += bytesReceived
-            delegate?.request(
+            delegate.request(
                 request,
                 didReceiveBytes: bytesReceived,
                 totalBytesReceived: totalBytesReceived,
@@ -39,4 +38,26 @@ public protocol FlockProgressDelegate: AnyObject {
         totalBytesReceived: Int,
         totalBytesExpected: Int
     )
+}
+
+final class SendableFlockProgressDelegate: FlockProgressDelegate, @unchecked Sendable {
+    weak var delegate: FlockProgressDelegate?
+
+    init(_ delegate: FlockProgressDelegate?) {
+        self.delegate = delegate
+    }
+
+    func request(
+        _ request: URLRequest,
+        didReceiveBytes bytesReceived: Int,
+        totalBytesReceived: Int,
+        totalBytesExpected: Int
+    ) {
+        delegate?.request(
+            request,
+            didReceiveBytes: bytesReceived,
+            totalBytesReceived: totalBytesReceived,
+            totalBytesExpected: totalBytesExpected
+        )
+    }
 }

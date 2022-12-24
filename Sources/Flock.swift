@@ -1,69 +1,67 @@
 import Foundation
 import Logging
 
+private var isLoggingSystemBootstrapped: Bool = false
+
 /// An object that coordinates the partitioning and concurrent downloading of a file.
 final class Flock {
-    var context: Context
     let request: URLRequest
     let connectionCount: Int
     let minimumConnectionSize: Int
+    weak var progressDelegate: FlockProgressDelegate?
+    let log: Logger
+    let session: URLSession
 
-    /// The delegate assigned when this object was created.
-    private(set) weak var progressDelegate: FlockProgressDelegate?
-
-    var progress: Progress?
-
-    /// - Parameters:
-    ///     - context:               A structure containing configuration and dependencies for Flock to reference.
-    ///     - request:               The request to download.
-    ///     - connectionCount:       The maximum number of connections to create in parallel.
-    ///     - minimumConnectionSize: The minimum size, in bytes, for each connection.
-    ///     - progressDelegate:      A delegate that receives progress updates for the download.
     init(
-        context: Context,
         request: URLRequest,
         numberOfConnections connectionCount: Int,
         minimumConnectionSize: Int,
-        progressDelegate: FlockProgressDelegate?
+        progressDelegate: FlockProgressDelegate?,
+        logLevel: Logger.Level,
+        session: URLSession
     ) {
         precondition(request.url != nil, "request must have an URL.")
-
-        self.context = context
-        self.context.log[metadataKey: "url"] = "\(request.url!)"
 
         self.request = request
         self.connectionCount = connectionCount
         self.minimumConnectionSize = minimumConnectionSize
         self.progressDelegate = progressDelegate
+
+        if !isLoggingSystemBootstrapped {
+            LoggingSystem.bootstrap(StreamLogHandler.standardOutput)
+            isLoggingSystemBootstrapped = true
+        }
+        var log = Logger(label: "Flock")
+        log.logLevel = logLevel
+        log[metadataKey: "url"] = "\(request.url!)"
+        log.debug("Logger initialized")
+        self.log = log
+
+        self.session = session
     }
 
-    /// Downloads the file.
-    ///
-    /// If the `URL` supports the `Range` HTTP header, the file will be partitioned and downloaded using multiple
-    /// concurrent connections based on the given parameters.
-    ///
-    /// - Returns: An asynchronously-delivered tuple that contains the location of the downloaded file as an `URL`, and
-    ///            an `URLResponse`.
     func download() async throws -> (URL, URLResponse) {
         var headRequest = request
         headRequest.httpMethod = "HEAD"
 
-        context.log.debug("Fetching headers")
-        let headResponse = try await context.session.bytes(for: headRequest).1 as! HTTPURLResponse
+        log.debug("Fetching headers")
+        let headResponse = try await session.bytes(for: headRequest).1 as! HTTPURLResponse
 
         let contentLength = Int(headResponse.value(forHTTPHeaderField: "Content-Length") ?? "") ?? 0
 
-        if contentLength > 0 {
-            progress = Progress(totalBytesExpected: contentLength, delegate: progressDelegate)
+        let progress = Progress(
+            totalBytesExpected: contentLength,
+            delegate: SendableFlockProgressDelegate(progressDelegate)
+        )
+
+        guard contentLength > 0 else {
+            log.debug("Content length unavailable, falling back to single-connection download")
+            return try await session.singleConnectionDownload(from: request, progress: progress)
         }
 
         guard headResponse.value(forHTTPHeaderField: "Accept-Ranges") == "bytes" else {
-            context.log.debug("Range header unsupported, falling back to single-connection download")
-            return try await context.session.singleConnectionDownload(
-                from: request,
-                using: context.fileManager,
-                progress: progress
-            )
+            log.debug("Range header unsupported, falling back to single-connection download")
+            return try await session.singleConnectionDownload(from: request, progress: progress)
         }
 
         let byteRanges = contentLength.ranges(
@@ -72,24 +70,21 @@ final class Flock {
         )
 
         guard byteRanges.count > 1 else {
-            context.log.debug("Partitioning produced only 1 range, falling back to single-connection download")
-            return try await context.session.singleConnectionDownload(
-                from: request,
-                using: context.fileManager,
-                progress: progress
-            )
+            log.debug("Partitioning produced only 1 range, falling back to single-connection download")
+            return try await session.singleConnectionDownload(from: request, progress: progress)
         }
 
         let partitions = byteRanges.map { byteRange in
             Partition(
-                context: context,
                 request: request,
                 byteRange: byteRange,
-                progress: progress
+                progress: progress,
+                log: log,
+                session: session
             )
         }
 
-        context.log.debug("Downloading partitions")
+        log.debug("Downloading partitions")
         let partitionResults = try await withThrowingTaskGroup(
             of: (Partition, URL).self,
             returning: [(Partition, URL)].self
@@ -108,11 +103,10 @@ final class Flock {
             return result
         }
 
-        let destinationURL = context.fileManager.flockTemporaryFile
-        context.log[metadataKey: "destination"] = "\(destinationURL.backportedPath)"
+        let destinationURL = try FileManager.default.flockTemporaryFile()
 
-        context.log.debug("Merging partitions")
-        try context.fileManager.merge(
+        log.debug("Merging partitions", metadata: ["destination": "\(destinationURL.backportedPath)"])
+        try FileManager.default.merge(
             partitionResults
                 .sorted { lhs, rhs in
                     lhs.0.byteRange.upperBound < rhs.0.byteRange.lowerBound
@@ -122,12 +116,12 @@ final class Flock {
         )
 
         defer {
-            context.log.debug("Deleting partitions")
+            log.debug("Deleting partitions")
             for (_, partitionURL) in partitionResults {
                 do {
-                    try context.fileManager.removeItem(at: partitionURL)
+                    try FileManager.default.removeItem(at: partitionURL)
                 } catch {
-                    context.log.warning(
+                    log.warning(
                         "Failed to delete partition",
                         metadata: ["location": "\(partitionURL.backportedPath)", "error": "\(error)"]
                     )
