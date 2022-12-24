@@ -63,7 +63,16 @@ class ProgressDelegate: FlockProgressDelegate {
         self.prefix = prefix
     }
 
-    func request(_ request: URLRequest, didReceiveBytes bytesReceived: Int, totalBytesReceived: Int, totalBytesExpected: Int) {
-        print("\(prefix)Downloading: \(totalBytesReceived) / \(totalBytesExpected)")
+    func request(
+        _ request: URLRequest,
+        didReceiveBytes bytesReceived: Int,
+        totalBytesReceived: Int,
+        totalBytesExpected: Int?
+    ) {
+        if let totalBytesExpected {
+            print("\(prefix)Downloading: \(totalBytesReceived) of \(totalBytesExpected) bytes")
+        } else {
+            print("\(prefix)Downloading: \(totalBytesReceived) bytes")
+        }
     }
 }

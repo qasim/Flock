@@ -8,7 +8,7 @@ final class Flock {
     let request: URLRequest
     let connectionCount: Int
     let minimumConnectionSize: Int
-    weak var progressDelegate: FlockProgressDelegate?
+    let progress: Progress
     let log: Logger
     let session: URLSession
 
@@ -25,7 +25,7 @@ final class Flock {
         self.request = request
         self.connectionCount = connectionCount
         self.minimumConnectionSize = minimumConnectionSize
-        self.progressDelegate = progressDelegate
+        self.progress = Progress(delegate: SendableFlockProgressDelegate(progressDelegate))
 
         if !isLoggingSystemBootstrapped {
             LoggingSystem.bootstrap(StreamLogHandler.standardOutput)
@@ -41,21 +41,29 @@ final class Flock {
     }
 
     func download() async throws -> (URL, URLResponse) {
+        log.debug("Fetching headers")
         var headRequest = request
         headRequest.httpMethod = "HEAD"
+        let headResponse: HTTPURLResponse
+        do {
+            headResponse = try await session.bytes(for: headRequest).1 as! HTTPURLResponse
+        } catch {
+            log.warning(
+                "Headers fetch failed, falling back to single-connection download",
+                metadata: ["error": "\(error)"]
+            )
+            return try await session.singleConnectionDownload(from: request, progress: progress)
+        }
 
-        log.debug("Fetching headers")
-        let headResponse = try await session.bytes(for: headRequest).1 as! HTTPURLResponse
+        guard let contentLength = Int(headResponse.value(forHTTPHeaderField: "Content-Length") ?? "") ?? nil else {
+            log.debug("Content-Length header unavailable, falling back to single-connection download")
+            return try await session.singleConnectionDownload(from: request, progress: progress)
+        }
 
-        let contentLength = Int(headResponse.value(forHTTPHeaderField: "Content-Length") ?? "") ?? 0
-
-        let progress = Progress(
-            totalBytesExpected: contentLength,
-            delegate: SendableFlockProgressDelegate(progressDelegate)
-        )
+        await progress.set(totalBytesExpected: contentLength)
 
         guard contentLength > 0 else {
-            log.debug("Content length unavailable, falling back to single-connection download")
+            log.debug("Content length less than 1, falling back to single-connection download")
             return try await session.singleConnectionDownload(from: request, progress: progress)
         }
 

@@ -26,13 +26,13 @@ final class FlockProgressTests: XCTestCase {
 private class TestProgressDelegate: FlockProgressDelegate {
     var numberOfCalls: Int = 0
     var totalBytesReceived: Int!
-    var totalBytesExpected: Int!
+    var totalBytesExpected: Int?
 
     func request(
         _ request: URLRequest,
         didReceiveBytes bytesReceived: Int,
         totalBytesReceived: Int,
-        totalBytesExpected: Int
+        totalBytesExpected: Int?
     ) {
         numberOfCalls += 1
         self.totalBytesReceived = totalBytesReceived

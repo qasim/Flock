@@ -3,12 +3,15 @@ import Foundation
 extension Flock {
     actor Progress {
         var totalBytesReceived: Int = 0
-        let totalBytesExpected: Int
+        var totalBytesExpected: Int?
         let delegate: SendableFlockProgressDelegate
 
-        init(totalBytesExpected: Int, delegate: SendableFlockProgressDelegate) {
-            self.totalBytesExpected = totalBytesExpected
+        init(delegate: SendableFlockProgressDelegate) {
             self.delegate = delegate
+        }
+
+        func set(totalBytesExpected: Int) {
+            self.totalBytesExpected = totalBytesExpected
         }
 
         func add(bytesReceived: Int, from request: URLRequest) {
@@ -36,7 +39,7 @@ public protocol FlockProgressDelegate: AnyObject {
         _ request: URLRequest,
         didReceiveBytes bytesReceived: Int,
         totalBytesReceived: Int,
-        totalBytesExpected: Int
+        totalBytesExpected: Int?
     )
 }
 
@@ -51,7 +54,7 @@ final class SendableFlockProgressDelegate: FlockProgressDelegate, @unchecked Sen
         _ request: URLRequest,
         didReceiveBytes bytesReceived: Int,
         totalBytesReceived: Int,
-        totalBytesExpected: Int
+        totalBytesExpected: Int?
     ) {
         delegate?.request(
             request,
