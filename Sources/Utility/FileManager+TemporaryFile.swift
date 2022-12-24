@@ -12,7 +12,7 @@ extension FileManager {
         if #available(macOS 13.0, *) {
             url = temporaryDirectory.appending(component: component)
         } else {
-            url = temporaryDirectory.appendingPathExtension(component)
+            url = temporaryDirectory.appendingPathComponent(component)
         }
 
         guard createFile(atPath: url.backportedPath, contents: nil) else {

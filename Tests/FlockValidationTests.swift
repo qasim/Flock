@@ -13,16 +13,14 @@ final class FlockValidationTests: XCTestCase {
             minimumConnectionSize: 1
         ).0
 
-        defer {
-            try? FileManager.default.removeItem(at: regularDownload)
-            try? FileManager.default.removeItem(at: flockedDownload)
-        }
-
         XCTAssert(
             FileManager.default.contentsEqual(
                 atPath: regularDownload.backportedPath,
                 andPath: flockedDownload.backportedPath
             )
         )
+
+        try? FileManager.default.removeItem(at: regularDownload)
+        try? FileManager.default.removeItem(at: flockedDownload)
     }
 }
