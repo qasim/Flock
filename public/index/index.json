@@ -4,6 +4,15 @@
       {
         "children" : [
           {
+            "title" : "Articles",
+            "type" : "groupMarker"
+          },
+          {
+            "path" : "\/documentation\/flock\/cli",
+            "title" : "CLI",
+            "type" : "article"
+          },
+          {
             "title" : "Protocols",
             "type" : "groupMarker"
           },

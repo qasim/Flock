@@ -75,6 +75,91 @@
           "type" : "paragraph"
         },
         {
+          "anchor" : "Installation",
+          "level" : 2,
+          "text" : "Installation",
+          "type" : "heading"
+        },
+        {
+          "inlineContent" : [
+            {
+              "text" : "Flock can be included in your project via ",
+              "type" : "text"
+            },
+            {
+              "identifier" : "https:\/\/www.swift.org\/package-manager",
+              "isActive" : true,
+              "type" : "reference"
+            },
+            {
+              "text" : ". Add the following line to the dependencies in your ",
+              "type" : "text"
+            },
+            {
+              "code" : "Package.swift",
+              "type" : "codeVoice"
+            },
+            {
+              "text" : " file:",
+              "type" : "text"
+            }
+          ],
+          "type" : "paragraph"
+        },
+        {
+          "code" : [
+            ".package(url: \"https:\/\/github.com\/qasim\/Flock\", exact: \"0.1.0\"),"
+          ],
+          "syntax" : "swift",
+          "type" : "codeListing"
+        },
+        {
+          "inlineContent" : [
+            {
+              "text" : "Then, include ",
+              "type" : "text"
+            },
+            {
+              "code" : "Flock",
+              "type" : "codeVoice"
+            },
+            {
+              "text" : " as a dependency for the target which requires it:",
+              "type" : "text"
+            }
+          ],
+          "type" : "paragraph"
+        },
+        {
+          "code" : [
+            ".target(",
+            "    name: \"<target>\",",
+            "    dependencies: [",
+            "        \"Flock\",",
+            "    ]",
+            "),"
+          ],
+          "syntax" : "swift",
+          "type" : "codeListing"
+        },
+        {
+          "inlineContent" : [
+            {
+              "text" : "Finally, add ",
+              "type" : "text"
+            },
+            {
+              "code" : "import Flock",
+              "type" : "codeVoice"
+            },
+            {
+              "text" : " to your source code.",
+              "type" : "text"
+            }
+          ],
+          "type" : "paragraph"
+        },
+        {
           "anchor" : "Usage",
           "level" : 2,
           "text" : "Usage",
@@ -87,7 +172,7 @@
               "type" : "text"
             },
             {
-              "identifier" : "\/documentation\/flock\/foundation\/urlsession",
+              "identifier" : "https:\/\/flock.qas.im\/documentation\/flock\/foundation\/urlsession",
               "isActive" : true,
               "type" : "reference"
             },
@@ -130,7 +215,7 @@
               "type" : "text"
             },
             {
-              "identifier" : "\/documentation\/flock\/flockprogressdelegate",
+              "identifier" : "https:\/\/flock.qas.im\/documentation\/flock\/flockprogressdelegate",
               "isActive" : true,
               "type" : "reference"
             },
@@ -161,6 +246,75 @@
           ],
           "syntax" : "swift",
           "type" : "codeListing"
+        },
+        {
+          "anchor" : "Benchmarks",
+          "level" : 2,
+          "text" : "Benchmarks",
+          "type" : "heading"
+        },
+        {
+          "inlineContent" : [
+            {
+              "text" : "TODO",
+              "type" : "text"
+            }
+          ],
+          "type" : "paragraph"
+        },
+        {
+          "anchor" : "CLI",
+          "level" : 2,
+          "text" : "CLI",
+          "type" : "heading"
+        },
+        {
+          "inlineContent" : [
+            {
+              "text" : "Flock also provides a ",
+              "type" : "text"
+            },
+            {
+              "identifier" : "\/documentation\/flock\/cli",
+              "isActive" : true,
+              "type" : "reference"
+            },
+            {
+              "text" : " for downloading files inside a shell.",
+              "type" : "text"
+            }
+          ],
+          "type" : "paragraph"
+        },
+        {
+          "anchor" : "Contributing",
+          "level" : 2,
+          "text" : "Contributing",
+          "type" : "heading"
+        },
+        {
+          "inlineContent" : [
+            {
+              "text" : "TODO",
+              "type" : "text"
+            }
+          ],
+          "type" : "paragraph"
+        },
+        {
+          "anchor" : "Disclaimer",
+          "level" : 2,
+          "text" : "Disclaimer",
+          "type" : "heading"
+        },
+        {
+          "inlineContent" : [
+            {
+              "text" : "TODO",
+              "type" : "text"
+            }
+          ],
+          "type" : "paragraph"
         }
       ],
       "kind" : "content"
@@ -175,6 +329,13 @@
 
   ],
   "topicSections" : [
+    {
+      "generated" : true,
+      "identifiers" : [
+        "doc:\/\/Flock\/documentation\/Flock\/CLI"
+      ],
+      "title" : "Articles"
+    },
     {
       "identifiers" : [
         "doc:\/\/Flock\/documentation\/Flock\/FlockProgressDelegate"
@@ -202,33 +363,17 @@
   ]
 , 
 "references": {
-"/documentation/flock/flockprogressdelegate": {
-  "identifier" : "\/documentation\/flock\/flockprogressdelegate",
-  "title" : "FlockProgressDelegate",
+"/documentation/flock/cli": {
+  "identifier" : "\/documentation\/flock\/cli",
+  "title" : "command-line interface",
   "titleInlineContent" : [
     {
-      "code" : "FlockProgressDelegate",
-      "type" : "codeVoice"
-    }
-  ],
-  "type" : "link",
-  "url" : "\/documentation\/flock\/flockprogressdelegate"
-},
-"/documentation/flock/foundation/urlsession": {
-  "identifier" : "\/documentation\/flock\/foundation\/urlsession",
-  "title" : "extends URLSession",
-  "titleInlineContent" : [
-    {
-      "text" : "extends ",
+      "text" : "command-line interface",
       "type" : "text"
-    },
-    {
-      "code" : "URLSession",
-      "type" : "codeVoice"
     }
   ],
   "type" : "link",
-  "url" : "\/documentation\/flock\/foundation\/urlsession"
+  "url" : "\/documentation\/flock\/cli"
 },
 "doc://Flock/documentation/Flock": {
   "abstract" : [
@@ -243,6 +388,17 @@
   "title" : "Flock",
   "type" : "topic",
   "url" : "\/documentation\/flock"
+},
+"doc://Flock/documentation/Flock/CLI": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/Flock\/documentation\/Flock\/CLI",
+  "kind" : "article",
+  "role" : "article",
+  "title" : "CLI",
+  "type" : "topic",
+  "url" : "\/documentation\/flock\/cli"
 },
 "doc://Flock/documentation/Flock/FlockProgressDelegate": {
   "abstract" : [
@@ -324,6 +480,46 @@
   ],
   "type" : "link",
   "url" : "https:\/\/docs.swift.org\/swift-book\/LanguageGuide\/Concurrency.html#ID642"
+},
+"https://flock.qas.im/documentation/flock/flockprogressdelegate": {
+  "identifier" : "https:\/\/flock.qas.im\/documentation\/flock\/flockprogressdelegate",
+  "title" : "FlockProgressDelegate",
+  "titleInlineContent" : [
+    {
+      "code" : "FlockProgressDelegate",
+      "type" : "codeVoice"
+    }
+  ],
+  "type" : "link",
+  "url" : "https:\/\/flock.qas.im\/documentation\/flock\/flockprogressdelegate"
+},
+"https://flock.qas.im/documentation/flock/foundation/urlsession": {
+  "identifier" : "https:\/\/flock.qas.im\/documentation\/flock\/foundation\/urlsession",
+  "title" : "extends URLSession",
+  "titleInlineContent" : [
+    {
+      "text" : "extends ",
+      "type" : "text"
+    },
+    {
+      "code" : "URLSession",
+      "type" : "codeVoice"
+    }
+  ],
+  "type" : "link",
+  "url" : "https:\/\/flock.qas.im\/documentation\/flock\/foundation\/urlsession"
+},
+"https://www.swift.org/package-manager": {
+  "identifier" : "https:\/\/www.swift.org\/package-manager",
+  "title" : "Swift Package Manager",
+  "titleInlineContent" : [
+    {
+      "text" : "Swift Package Manager",
+      "type" : "text"
+    }
+  ],
+  "type" : "link",
+  "url" : "https:\/\/www.swift.org\/package-manager"
 }
 }
 }
