@@ -38,11 +38,11 @@ struct Main: AsyncParsableCommand {
     var verbosity: Verbosity?
 
     mutating func run() async throws {
-        let prefix = verbosity == nil ? "\u{1B}[1A\u{1B}[K" : ""
-
         if verbosity != .quiet {
             print("Preparing")
         }
+
+        let prefix = verbosity == nil ? "\u{1B}[1A\u{1B}[K" : ""
 
         let (url, _) = try await URLSession.shared.flock(
             from: URL(string: url)!,
