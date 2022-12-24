@@ -61,6 +61,22 @@ For more details, have a look at the [Flock API reference](https://flock.qas.im)
 
 TODO
 
+## CLI
+
+Flock also provides a [command-line interface](https://github.com/qasim/Flock/tree/main/CLI) for downloading files inside a shell.
+
+### Installation
+
+```bash
+brew tap qasim/tools && brew install qasim/tools/flock
+```
+
+### Usage
+
+```bash
+flock --help
+```
+
 ## Contributing
 
 TODO
