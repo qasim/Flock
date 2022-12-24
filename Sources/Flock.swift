@@ -109,7 +109,7 @@ final class Flock {
         }
 
         let destinationURL = context.fileManager.flockTemporaryFile
-        context.log[metadataKey: "destination"] = "\(destinationURL)"
+        context.log[metadataKey: "destination"] = "\(destinationURL.backportedPath)"
 
         context.log.debug("Merging partitions")
         try context.fileManager.merge(
@@ -129,7 +129,7 @@ final class Flock {
                 } catch {
                     context.log.warning(
                         "Failed to delete partition",
-                        metadata: ["url": "\(partitionURL)", "error": "\(error)"]
+                        metadata: ["location": "\(partitionURL.backportedPath)", "error": "\(error)"]
                     )
                 }
             }

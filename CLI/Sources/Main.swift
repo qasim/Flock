@@ -18,24 +18,52 @@ struct Main: AsyncParsableCommand {
     @Option(name: .shortAndLong, help: "The minimum size, in bytes, for each connection.")
     var minimumConnectionSize: Int = 16777216
 
-    @Flag(name: .shortAndLong, help: "Whether or not verbose logs should be printed to standard output.")
-    var verbose: Bool = false
+    enum Verbosity: EnumerableFlag {
+        case quiet
+        case verbose
+
+        static func name(for value: Verbosity) -> NameSpecification {
+            NameSpecification([.short, .long])
+        }
+
+        static func help(for value: Verbosity) -> ArgumentHelp? {
+            switch value {
+            case .quiet: return "Skip progress reporting."
+            case .verbose: return "Print verbose logs."
+            }
+        }
+    }
+
+    @Flag
+    var verbosity: Verbosity?
 
     mutating func run() async throws {
-        print("Preparing")
+        let prefix = verbosity == nil ? "\u{1B}[1A\u{1B}[K" : ""
+
+        if verbosity != .quiet {
+            print("Preparing")
+        }
+
         let (url, _) = try await URLSession.shared.flock(
             from: URL(string: url)!,
             numberOfConnections: connectionCount,
             minimumConnectionSize: minimumConnectionSize,
-            progressDelegate: ProgressDelegate(),
-            isVerbose: verbose
+            progressDelegate: verbosity != .quiet ? ProgressDelegate(prefix) : nil,
+            isVerbose: verbosity == .verbose
         )
-        print("\u{1B}[1A\u{1B}[K\(url.path)")
+
+        print("\(prefix)\(url.path)")
     }
 }
 
 class ProgressDelegate: FlockProgressDelegate {
+    let prefix: String
+
+    init(_ prefix: String) {
+        self.prefix = prefix
+    }
+
     func request(_ request: URLRequest, didReceiveBytes bytesReceived: Int, totalBytesReceived: Int, totalBytesExpected: Int) {
-        print("\u{1B}[1A\u{1B}[KDownloading: \(totalBytesReceived) / \(totalBytesExpected)")
+        print("\(prefix)Downloading: \(totalBytesReceived) / \(totalBytesExpected)")
     }
 }

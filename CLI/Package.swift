@@ -6,7 +6,7 @@ let package = Package(
     name: "Flock.CLI",
     platforms: [.macOS(.v12)],
     products: [
-        .executable(name: "cli", targets: ["CLI"]),
+        .executable(name: "flock", targets: ["CLI"]),
     ],
     dependencies: [
         .package(name: "Flock", path: ".."),
