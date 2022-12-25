@@ -7,15 +7,9 @@ extension FileManager {
 
     func flockTemporaryFile() throws -> URL {
         let component = "Flock_\(UUID().uuidString).tmp"
+        let url = temporaryDirectory.appendingBackported(component: component)
 
-        let url: URL
-        if #available(macOS 13.0, *) {
-            url = temporaryDirectory.appending(component: component)
-        } else {
-            url = temporaryDirectory.appendingPathComponent(component)
-        }
-
-        guard createFile(atPath: url.backportedPath, contents: nil) else {
+        guard createFile(atPath: url.pathBackported, contents: nil) else {
             throw FlockError.failedToCreateFile(url)
         }
 

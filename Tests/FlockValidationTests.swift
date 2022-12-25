@@ -15,8 +15,8 @@ final class FlockValidationTests: XCTestCase {
 
         XCTAssert(
             FileManager.default.contentsEqual(
-                atPath: regularDownload.backportedPath,
-                andPath: flockedDownload.backportedPath
+                atPath: regularDownload.pathBackported,
+                andPath: flockedDownload.pathBackported
             )
         )
 

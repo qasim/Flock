@@ -46,7 +46,7 @@ final class Flock {
         headRequest.httpMethod = "HEAD"
         let headResponse: HTTPURLResponse
         do {
-            headResponse = try await session.bytes(for: headRequest).1 as! HTTPURLResponse
+            headResponse = try await session.response(from: headRequest)
         } catch {
             log.warning(
                 "Headers fetch failed, falling back to single-connection download",
@@ -113,7 +113,7 @@ final class Flock {
 
         let destinationURL = try FileManager.default.flockTemporaryFile()
 
-        log.debug("Merging partitions", metadata: ["destination": "\(destinationURL.backportedPath)"])
+        log.debug("Merging partitions", metadata: ["destination": "\(destinationURL.pathBackported)"])
         try FileManager.default.merge(
             partitionResults
                 .sorted { lhs, rhs in
@@ -131,7 +131,7 @@ final class Flock {
                 } catch {
                     log.warning(
                         "Failed to delete partition",
-                        metadata: ["location": "\(partitionURL.backportedPath)", "error": "\(error)"]
+                        metadata: ["location": "\(partitionURL.pathBackported)", "error": "\(error)"]
                     )
                 }
             }
