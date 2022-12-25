@@ -18,7 +18,7 @@ final class FlockProgressTests: XCTestCase {
             try? FileManager.default.removeItem(at: flockedDownload)
         }
 
-        XCTAssertEqual(testProgressDelegate.numberOfCalls, 80)
+        XCTAssert(testProgressDelegate.numberOfCalls >= 80) // can vary when not using AsyncBytes (aka before macOS 12)
         XCTAssertEqual(testProgressDelegate.totalBytesReceived, testProgressDelegate.totalBytesExpected)
     }
 }
