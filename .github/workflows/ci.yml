@@ -33,7 +33,7 @@ jobs:
         retry_on: error
         timeout_minutes: 10
         max_attempts: 3
-        command: swift build -v
+        command: swift build ${RUNNER_DEBUG:+-v}
 
     - name: Test
       uses: nick-fields/retry@v2.8.2
@@ -41,7 +41,7 @@ jobs:
         retry_on: error
         timeout_minutes: 10
         max_attempts: 3
-        command: swift test -v
+        command: swift test ${RUNNER_DEBUG:+-v}
 
   publish-documentation:
     needs: test
@@ -63,7 +63,7 @@ jobs:
         xcode-version: ${{ env.XCODE_VERSION }}
 
     - name: Reset package cache
-      run: swift package reset
+      run: swift package reset ${RUNNER_DEBUG:+-v}
 
     - name: Reset public directory
       run: |
@@ -89,7 +89,8 @@ jobs:
             --source-service-base-url https://github.com/qasim/Flock/blob/main \
             --checkout-path $GITHUB_WORKSPACE \
             --disable-indexing \
-            --transform-for-static-hosting
+            --transform-for-static-hosting \
+            ${RUNNER_DEBUG:+-v}
 
     - name: Publish documentation
       run: |
