@@ -28,10 +28,20 @@ jobs:
         xcode-version: ${{ env.XCODE_VERSION }}
 
     - name: Build
-      run: swift build -v
+      uses: nick-fields/retry@v2.8.2
+      with:
+        retry_on: error
+        timeout_minutes: 10
+        max_attempts: 3
+        command: swift build -v
 
     - name: Test
-      run: swift test -v
+      uses: nick-fields/retry@v2.8.2
+      with:
+        retry_on: error
+        timeout_minutes: 10
+        max_attempts: 3
+        command: swift test -v
 
   publish-documentation:
     needs: test
@@ -61,20 +71,25 @@ jobs:
         mkdir docs/public
 
     - name: Generate documentation
-      run: |
-        export TOOLCHAINS=swift
-        export DOCC_JSON_PRETTYPRINT=YES
-        swift package \
-          --allow-writing-to-directory docs/public \
-          generate-documentation \
-          --output-path docs/public \
-          --target Flock \
-          --include-extended-types \
-          --source-service github \
-          --source-service-base-url https://github.com/qasim/Flock/blob/main \
-          --checkout-path $GITHUB_WORKSPACE \
-          --disable-indexing \
-          --transform-for-static-hosting
+      uses: nick-fields/retry@v2.8.2
+      with:
+        retry_on: error
+        timeout_minutes: 10
+        max_attempts: 3
+        command: |
+          export TOOLCHAINS=swift
+          export DOCC_JSON_PRETTYPRINT=YES
+          swift package \
+            --allow-writing-to-directory docs/public \
+            generate-documentation \
+            --output-path docs/public \
+            --target Flock \
+            --include-extended-types \
+            --source-service github \
+            --source-service-base-url https://github.com/qasim/Flock/blob/main \
+            --checkout-path $GITHUB_WORKSPACE \
+            --disable-indexing \
+            --transform-for-static-hosting
 
     - name: Publish documentation
       run: |
