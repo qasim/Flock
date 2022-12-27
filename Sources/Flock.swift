@@ -43,35 +43,27 @@ final class Flock {
     func download() async throws -> (URL, URLResponse) {
         let file = try FileManager.default.flockTemporaryFile()
 
-        log.debug("Fetching headers")
-        var headRequest = request
-        headRequest.httpMethod = "HEAD"
-        let headResponse: HTTPURLResponse
-        do {
-            headResponse = try await session.response(from: headRequest)
-        } catch {
-            log.warning(
-                "Headers fetch failed, falling back to single-connection download",
-                metadata: ["error": "\(error)"]
-            )
-            return (file, try await session.download(from: request, to: file, progress: progress))
-        }
+        log.debug("Preparing initial request")
+        let (asyncBytes, response) = try await session.bytes(for: request) as! (URLSession.AsyncBytes, HTTPURLResponse)
 
-        guard let contentLength = Int(headResponse.value(forHTTPHeaderField: "Content-Length") ?? "") ?? nil else {
-            log.debug("Content-Length header unavailable, falling back to single-connection download")
-            return (file, try await session.download(from: request, to: file, progress: progress))
+        guard let contentLength = Int(response.value(forHTTPHeaderField: "Content-Length") ?? "") ?? nil else {
+            log.debug("Content-Length header unavailable, downloading initial request")
+            try await session.download(from: request, asyncBytes, to: file, progress: progress)
+            return (file, response)
         }
 
         await progress.set(totalBytesExpected: contentLength)
 
         guard contentLength > 0 else {
-            log.debug("Content length less than 1, falling back to single-connection download")
-            return (file, try await session.download(from: request, to: file, progress: progress))
+            log.debug("Content length less than 1, downloading initial request")
+            try await session.download(from: request, asyncBytes, to: file, progress: progress)
+            return (file, response)
         }
 
-        guard headResponse.value(forHTTPHeaderField: "Accept-Ranges") == "bytes" else {
-            log.debug("Range header unsupported, falling back to single-connection download")
-            return (file, try await session.download(from: request, to: file, progress: progress))
+        guard response.value(forHTTPHeaderField: "Accept-Ranges") == "bytes" else {
+            log.debug("Range header unsupported, downloading initial request")
+            try await session.download(from: request, asyncBytes, to: file, progress: progress)
+            return (file, response)
         }
 
         let byteRanges = contentLength.ranges(
@@ -80,16 +72,24 @@ final class Flock {
         )
 
         guard byteRanges.count > 1 else {
-            log.debug("Partitioning produced only 1 range, falling back to single-connection download")
-            return (file, try await session.download(from: request, to: file, progress: progress))
+            log.debug("Partitioning produced only 1 range, downloading initial request")
+            try await session.download(from: request, asyncBytes, to: file, progress: progress)
+            return (file, response)
         }
 
         log.debug("Downloading partitions")
-        try await withThrowingTaskGroup(
-            of: Void.self,
-            returning: Void.self
-        ) { taskGroup in
-            for byteRange in byteRanges {
+        try await withThrowingTaskGroup(of: Void.self) { taskGroup in
+            taskGroup.addTask { [self] in
+                log.debug("Downloading", metadata: ["byteRange": "\(byteRanges[0])"])
+                try await session.download(
+                    from: request, asyncBytes,
+                    to: file,
+                    until: byteRanges[0].upperBound + 1,
+                    progress: progress
+                )
+            }
+
+            for byteRange in byteRanges[1...] {
                 taskGroup.addTask { [self] in
                     var request = request
                     request.setValue(
@@ -97,6 +97,7 @@ final class Flock {
                         forHTTPHeaderField: "Range"
                     )
 
+                    log.debug("Downloading", metadata: ["byteRange": "\(byteRange)"])
                     try await session.download(from: request, to: file, at: byteRange.lowerBound, progress: progress)
                 }
             }
@@ -106,6 +107,6 @@ final class Flock {
             }
         }
 
-        return (file, headResponse)
+        return (file, response)
     }
 }
