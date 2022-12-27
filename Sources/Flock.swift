@@ -41,6 +41,8 @@ final class Flock {
     }
 
     func download() async throws -> (URL, URLResponse) {
+        let file = try FileManager.default.flockTemporaryFile()
+
         log.debug("Fetching headers")
         var headRequest = request
         headRequest.httpMethod = "HEAD"
@@ -52,24 +54,24 @@ final class Flock {
                 "Headers fetch failed, falling back to single-connection download",
                 metadata: ["error": "\(error)"]
             )
-            return try await session.singleConnectionDownload(from: request, progress: progress)
+            return (file, try await session.download(from: request, to: file, progress: progress))
         }
 
         guard let contentLength = Int(headResponse.value(forHTTPHeaderField: "Content-Length") ?? "") ?? nil else {
             log.debug("Content-Length header unavailable, falling back to single-connection download")
-            return try await session.singleConnectionDownload(from: request, progress: progress)
+            return (file, try await session.download(from: request, to: file, progress: progress))
         }
 
         await progress.set(totalBytesExpected: contentLength)
 
         guard contentLength > 0 else {
             log.debug("Content length less than 1, falling back to single-connection download")
-            return try await session.singleConnectionDownload(from: request, progress: progress)
+            return (file, try await session.download(from: request, to: file, progress: progress))
         }
 
         guard headResponse.value(forHTTPHeaderField: "Accept-Ranges") == "bytes" else {
             log.debug("Range header unsupported, falling back to single-connection download")
-            return try await session.singleConnectionDownload(from: request, progress: progress)
+            return (file, try await session.download(from: request, to: file, progress: progress))
         }
 
         let byteRanges = contentLength.ranges(
@@ -79,64 +81,31 @@ final class Flock {
 
         guard byteRanges.count > 1 else {
             log.debug("Partitioning produced only 1 range, falling back to single-connection download")
-            return try await session.singleConnectionDownload(from: request, progress: progress)
-        }
-
-        let partitions = byteRanges.map { byteRange in
-            Partition(
-                request: request,
-                byteRange: byteRange,
-                progress: progress,
-                log: log,
-                session: session
-            )
+            return (file, try await session.download(from: request, to: file, progress: progress))
         }
 
         log.debug("Downloading partitions")
-        let partitionResults = try await withThrowingTaskGroup(
-            of: (Partition, URL).self,
-            returning: [(Partition, URL)].self
+        try await withThrowingTaskGroup(
+            of: Void.self,
+            returning: Void.self
         ) { taskGroup in
-            for partition in partitions {
-                taskGroup.addTask {
-                    return (partition, try await partition.download().0)
-                }
-            }
-
-            var result: [(Partition, URL)] = []
-            while let (partition, url) = try await taskGroup.next() {
-                result.append((partition, url))
-            }
-
-            return result
-        }
-
-        let destinationURL = try FileManager.default.flockTemporaryFile()
-
-        log.debug("Merging partitions", metadata: ["destination": "\(destinationURL.pathBackported)"])
-        try FileManager.default.merge(
-            partitionResults
-                .sorted { lhs, rhs in
-                    lhs.0.byteRange.upperBound < rhs.0.byteRange.lowerBound
-                }
-                .map(\.1),
-            to: destinationURL
-        )
-
-        defer {
-            log.debug("Deleting partitions")
-            for (_, partitionURL) in partitionResults {
-                do {
-                    try FileManager.default.removeItem(at: partitionURL)
-                } catch {
-                    log.warning(
-                        "Failed to delete partition",
-                        metadata: ["location": "\(partitionURL.pathBackported)", "error": "\(error)"]
+            for byteRange in byteRanges {
+                taskGroup.addTask { [self] in
+                    var request = request
+                    request.setValue(
+                        "bytes=\(byteRange.lowerBound)-\(byteRange.upperBound)",
+                        forHTTPHeaderField: "Range"
                     )
+
+                    try await session.download(from: request, to: file, at: byteRange.lowerBound, progress: progress)
                 }
+            }
+
+            while try await taskGroup.next() != nil {
+                // Continue
             }
         }
 
-        return (destinationURL, headResponse)
+        return (file, headResponse)
     }
 }

@@ -1,15 +1,18 @@
 import Foundation
 
 extension URLSession {
-    func singleConnectionDownload(
+    @discardableResult
+    func download(
         from request: URLRequest,
+        to file: URL,
+        at offset: Int = 0,
         bufferSize: Int = 65_536,
         progress: Flock.Progress? = nil
-    ) async throws -> (URL, URLResponse) {
+    ) async throws -> URLResponse {
         let (asyncBytes, response) = try await bytes(for: request)
 
-        let destinationURL = try FileManager.default.flockTemporaryFile()
-        let destinationHandle = try FileHandle(forWritingTo: destinationURL)
+        let destinationHandle = try FileHandle(forWritingTo: file)
+        try destinationHandle.seek(toOffset: UInt64(offset))
 
         var buffer = Data()
         buffer.reserveCapacity(bufferSize)
@@ -32,6 +35,6 @@ extension URLSession {
             try? destinationHandle.close()
         }
 
-        return (destinationURL, response)
+        return response
     }
 }
