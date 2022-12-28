@@ -16,12 +16,12 @@
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/Flock\/documentation\/Flock\/Foundation\/URLSession\/flock(from:numberOfConnections:minimumConnectionSize:progressDelegate:isVerbose:)-67tbw"
+    "url" : "doc:\/\/Flock\/documentation\/Flock\/Foundation\/URLSession\/flock(from:numberOfConnections:minimumConnectionSize:bufferSize:progressDelegate:isVerbose:)-7pj98"
   },
   "kind" : "symbol",
   "metadata" : {
     "extendedModule" : "Foundation",
-    "externalID" : "s:So12NSURLSessionC5FlockE5flock4from19numberOfConnections21minimumConnectionSize16progressDelegate9isVerbose10Foundation3URLV_So13NSURLResponseCtAJ10URLRequestV_S2iAC0b8ProgressL0_pSgSbtYaKF",
+    "externalID" : "s:So12NSURLSessionC5FlockE5flock4from19numberOfConnections21minimumConnectionSize06bufferJ016progressDelegate9isVerbose10Foundation3URLV_So13NSURLResponseCtAK10URLRequestV_S3iAC0b8ProgressM0_pSgSbtYaKF",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -76,6 +76,23 @@
       {
         "kind" : "externalParam",
         "text" : "minimumConnectionSize"
+      },
+      {
+        "kind" : "text",
+        "text" : ": "
+      },
+      {
+        "kind" : "typeIdentifier",
+        "preciseIdentifier" : "s:Si",
+        "text" : "Int"
+      },
+      {
+        "kind" : "text",
+        "text" : ", "
+      },
+      {
+        "kind" : "externalParam",
+        "text" : "bufferSize"
       },
       {
         "kind" : "text",
@@ -166,12 +183,12 @@
     ],
     "remoteSource" : {
       "fileName" : "URLSession+Flock.swift",
-      "url" : "https:\/\/github.com\/qasim\/Flock\/blob\/main\/Sources\/URLSession+Flock.swift#L52"
+      "url" : "https:\/\/github.com\/qasim\/Flock\/blob\/main\/Sources\/URLSession+Flock.swift#L56"
     },
     "role" : "symbol",
     "roleHeading" : "Instance Method",
     "symbolKind" : "method",
-    "title" : "flock(from:numberOfConnections:minimumConnectionSize:progressDelegate:isVerbose:)"
+    "title" : "flock(from:numberOfConnections:minimumConnectionSize:bufferSize:progressDelegate:isVerbose:)"
   },
   "primaryContentSections" : [
     {
@@ -266,6 +283,23 @@
             {
               "kind" : "text",
               "text" : " = 16_777_216, "
+            },
+            {
+              "kind" : "externalParam",
+              "text" : "bufferSize"
+            },
+            {
+              "kind" : "text",
+              "text" : ": "
+            },
+            {
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:Si",
+              "text" : "Int"
+            },
+            {
+              "kind" : "text",
+              "text" : " = 65_536, "
             },
             {
               "kind" : "externalParam",
@@ -427,6 +461,36 @@
             {
               "inlineContent" : [
                 {
+                  "text" : "TODO. The default is ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "65536",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : ", which is equivalent to ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "64KB",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : ".",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "bufferSize"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
                   "text" : "A delegate that receives progress updates for the download.",
                   "type" : "text"
                 }
@@ -552,7 +616,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/flock\/foundation\/urlsession\/flock(from:numberofconnections:minimumconnectionsize:progressdelegate:isverbose:)-67tbw"
+        "\/documentation\/flock\/foundation\/urlsession\/flock(from:numberofconnections:minimumconnectionsize:buffersize:progressdelegate:isverbose:)-7pj98"
       ],
       "traits" : [
         {
@@ -654,7 +718,7 @@
   "type" : "topic",
   "url" : "\/documentation\/flock\/foundation\/urlsession"
 },
-"doc://Flock/documentation/Flock/Foundation/URLSession/flock(from:numberOfConnections:minimumConnectionSize:progressDelegate:isVerbose:)-67tbw": {
+"doc://Flock/documentation/Flock/Foundation/URLSession/flock(from:numberOfConnections:minimumConnectionSize:bufferSize:progressDelegate:isVerbose:)-7pj98": {
   "abstract" : [
     {
       "text" : "Downloads a file.",
@@ -715,6 +779,23 @@
     {
       "kind" : "externalParam",
       "text" : "minimumConnectionSize"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Si",
+      "text" : "Int"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "bufferSize"
     },
     {
       "kind" : "text",
@@ -798,12 +879,12 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/Flock\/documentation\/Flock\/Foundation\/URLSession\/flock(from:numberOfConnections:minimumConnectionSize:progressDelegate:isVerbose:)-67tbw",
+  "identifier" : "doc:\/\/Flock\/documentation\/Flock\/Foundation\/URLSession\/flock(from:numberOfConnections:minimumConnectionSize:bufferSize:progressDelegate:isVerbose:)-7pj98",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "flock(from:numberOfConnections:minimumConnectionSize:progressDelegate:isVerbose:)",
+  "title" : "flock(from:numberOfConnections:minimumConnectionSize:bufferSize:progressDelegate:isVerbose:)",
   "type" : "topic",
-  "url" : "\/documentation\/flock\/foundation\/urlsession\/flock(from:numberofconnections:minimumconnectionsize:progressdelegate:isverbose:)-67tbw"
+  "url" : "\/documentation\/flock\/foundation\/urlsession\/flock(from:numberofconnections:minimumconnectionsize:buffersize:progressdelegate:isverbose:)-7pj98"
 }
 }
 }

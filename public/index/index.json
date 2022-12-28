@@ -40,13 +40,13 @@
                     "type" : "groupMarker"
                   },
                   {
-                    "path" : "\/documentation\/flock\/foundation\/urlsession\/flock(from:numberofconnections:minimumconnectionsize:progressdelegate:isverbose:)-4alce",
-                    "title" : "func flock(from: URL, numberOfConnections: Int, minimumConnectionSize: Int, progressDelegate: FlockProgressDelegate?, isVerbose: Bool) async throws -> (URL, URLResponse)",
+                    "path" : "\/documentation\/flock\/foundation\/urlsession\/flock(from:numberofconnections:minimumconnectionsize:buffersize:progressdelegate:isverbose:)-4igxt",
+                    "title" : "func flock(from: URL, numberOfConnections: Int, minimumConnectionSize: Int, bufferSize: Int, progressDelegate: FlockProgressDelegate?, isVerbose: Bool) async throws -> (URL, URLResponse)",
                     "type" : "method"
                   },
                   {
-                    "path" : "\/documentation\/flock\/foundation\/urlsession\/flock(from:numberofconnections:minimumconnectionsize:progressdelegate:isverbose:)-67tbw",
-                    "title" : "func flock(from: URLRequest, numberOfConnections: Int, minimumConnectionSize: Int, progressDelegate: FlockProgressDelegate?, isVerbose: Bool) async throws -> (URL, URLResponse)",
+                    "path" : "\/documentation\/flock\/foundation\/urlsession\/flock(from:numberofconnections:minimumconnectionsize:buffersize:progressdelegate:isverbose:)-7pj98",
+                    "title" : "func flock(from: URLRequest, numberOfConnections: Int, minimumConnectionSize: Int, bufferSize: Int, progressDelegate: FlockProgressDelegate?, isVerbose: Bool) async throws -> (URL, URLResponse)",
                     "type" : "method"
                   }
                 ],
