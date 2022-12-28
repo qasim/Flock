@@ -15,21 +15,17 @@ extension URLSession {
             try destinationHandle.seek(toOffset: UInt64(offset))
         }
 
-        var buffer = Data()
+        var buffer = [UInt8]()
         buffer.reserveCapacity(bufferSize)
 
-        var totalBytesReceived = 0
+        var bytesProcessed: Int = 0
 
         for try await byte in asyncBytes {
             buffer.append(byte)
-            totalBytesReceived += 1
-            if let limit, totalBytesReceived == limit {
-                try destinationHandle.write(contentsOf: buffer)
-                await progress?.add(bytesReceived: buffer.count, from: request)
-                asyncBytes.task.cancel()
-                try? destinationHandle.close()
-                return
-            } else if totalBytesReceived % bufferSize == 0 {
+            bytesProcessed += 1
+            if let limit, bytesProcessed == limit {
+                break
+            } else if buffer.count == bufferSize {
                 try destinationHandle.write(contentsOf: buffer)
                 buffer.removeAll(keepingCapacity: true)
                 await progress?.add(bytesReceived: bufferSize, from: request)

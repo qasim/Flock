@@ -18,6 +18,9 @@ struct Main: AsyncParsableCommand {
     @Option
     var connections: Int = 1
 
+    @Option
+    var bufferSize: Int = 65_536
+
     @Argument
     var url: String
 
@@ -53,7 +56,8 @@ struct Main: AsyncParsableCommand {
             _ = try await URLSession.shared.flock(
                 from: URL(string: url)!,
                 numberOfConnections: connections,
-                minimumConnectionSize: 1
+                minimumConnectionSize: 1,
+                bufferSize: bufferSize
             )
 
         case .urlSessionDownload:

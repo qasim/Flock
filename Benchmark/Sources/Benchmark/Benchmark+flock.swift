@@ -6,6 +6,7 @@ extension Benchmark {
     mutating func addFlockTasks() {
         addFileSizeTasks()
         addConnectionCountTasks()
+        addBufferSizeTasks()
     }
 }
 
@@ -94,6 +95,73 @@ private extension Benchmark {
                 ".build/release/support",
                 "--engine", "flock",
                 "--connections", "\(input)",
+                RemoteTestFile.of100MB.url,
+            ])
+        }
+    }
+}
+
+// MARK: - Buffer Size
+
+extension Benchmark {
+    private mutating func addBufferSizeTasks() {
+        addLocalBufferSizeTasks()
+        addRemoteBufferSizeTasks()
+    }
+
+    private mutating func addLocalBufferSizeTasks() {
+        addSimple(
+            title: "local, bufferSize=x, connections=1, fileSize=128M, Flock",
+            input: Int.self
+        ) { input in
+            try! Process.popen(arguments: [
+                ".build/release/support",
+                "--engine", "flock",
+                "--buffer-size", "\(input)",
+                "--connections", "1",
+                LocalTestFile.of(134217728).url,
+            ])
+        }
+
+        let activeProcessorCount = ProcessInfo.processInfo.activeProcessorCount
+        addSimple(
+            title: "local, bufferSize=x, connections=\(activeProcessorCount), fileSize=128M, Flock",
+            input: Int.self
+        ) { input in
+            try! Process.popen(arguments: [
+                ".build/release/support",
+                "--engine", "flock",
+                "--buffer-size", "\(input)",
+                "--connections", "\(activeProcessorCount)",
+                LocalTestFile.of(134217728).url,
+            ])
+        }
+    }
+
+    private mutating func addRemoteBufferSizeTasks() {
+        addSimple(
+            title: "remote, bufferSize=x, connections=1, fileSize=100M, Flock",
+            input: Int.self
+        ) { input in
+            try! Process.popen(arguments: [
+                ".build/release/support",
+                "--engine", "flock",
+                "--buffer-size", "\(input)",
+                "--connections", "1",
+                RemoteTestFile.of100MB.url,
+            ])
+        }
+
+        let activeProcessorCount = ProcessInfo.processInfo.activeProcessorCount
+        addSimple(
+            title: "remote, bufferSize=x, connections=\(activeProcessorCount), fileSize=100M, Flock",
+            input: Int.self
+        ) { input in
+            try! Process.popen(arguments: [
+                ".build/release/support",
+                "--engine", "flock",
+                "--buffer-size", "\(input)",
+                "--connections", "\(activeProcessorCount)",
                 RemoteTestFile.of100MB.url,
             ])
         }
