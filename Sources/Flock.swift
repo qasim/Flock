@@ -8,6 +8,7 @@ final class Flock {
     let request: URLRequest
     let connectionCount: Int
     let minimumConnectionSize: Int
+    let bufferSize: Int
     let progress: Progress
     let log: Logger
     let session: URLSession
@@ -16,6 +17,7 @@ final class Flock {
         request: URLRequest,
         numberOfConnections connectionCount: Int,
         minimumConnectionSize: Int,
+        bufferSize: Int,
         progressDelegate: FlockProgressDelegate?,
         logLevel: Logger.Level,
         session: URLSession
@@ -25,6 +27,7 @@ final class Flock {
         self.request = request
         self.connectionCount = connectionCount
         self.minimumConnectionSize = minimumConnectionSize
+        self.bufferSize = bufferSize
         self.progress = Progress(delegate: SendableFlockProgressDelegate(progressDelegate))
 
         if !isLoggingSystemBootstrapped {
@@ -48,7 +51,7 @@ final class Flock {
 
         guard let contentLength = Int(response.value(forHTTPHeaderField: "Content-Length") ?? "") ?? nil else {
             log.debug("Content-Length header unavailable, downloading initial request")
-            try await session.download(from: request, asyncBytes, to: file, progress: progress)
+            try await session.download(from: request, asyncBytes, to: file, bufferSize: bufferSize, progress: progress)
             return (file, response)
         }
 
@@ -56,13 +59,13 @@ final class Flock {
 
         guard contentLength > 0 else {
             log.debug("Content length less than 1, downloading initial request")
-            try await session.download(from: request, asyncBytes, to: file, progress: progress)
+            try await session.download(from: request, asyncBytes, to: file, bufferSize: bufferSize, progress: progress)
             return (file, response)
         }
 
         guard response.value(forHTTPHeaderField: "Accept-Ranges") == "bytes" else {
             log.debug("Range header unsupported, downloading initial request")
-            try await session.download(from: request, asyncBytes, to: file, progress: progress)
+            try await session.download(from: request, asyncBytes, to: file, bufferSize: bufferSize, progress: progress)
             return (file, response)
         }
 
@@ -73,7 +76,7 @@ final class Flock {
 
         guard byteRanges.count > 1 else {
             log.debug("Partitioning produced only 1 range, downloading initial request")
-            try await session.download(from: request, asyncBytes, to: file, progress: progress)
+            try await session.download(from: request, asyncBytes, to: file, bufferSize: bufferSize, progress: progress)
             return (file, response)
         }
 
@@ -85,6 +88,7 @@ final class Flock {
                     from: request, asyncBytes,
                     to: file,
                     until: byteRanges[0].upperBound + 1,
+                    bufferSize: bufferSize,
                     progress: progress
                 )
             }
@@ -98,7 +102,13 @@ final class Flock {
                     )
 
                     log.debug("Downloading", metadata: ["byteRange": "\(byteRange)"])
-                    try await session.download(from: request, to: file, at: byteRange.lowerBound, progress: progress)
+                    try await session.download(
+                        from: request,
+                        to: file,
+                        at: byteRange.lowerBound,
+                        bufferSize: bufferSize,
+                        progress: progress
+                    )
                 }
             }
 

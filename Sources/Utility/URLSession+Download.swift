@@ -7,7 +7,7 @@ extension URLSession {
         to file: URL,
         at offset: Int = 0,
         until limit: Int? = nil,
-        bufferSize: Int = 131_072,
+        bufferSize: Int,
         progress: Flock.Progress? = nil
     ) async throws {
         let destinationHandle = try FileHandle(forWritingTo: file)
@@ -49,7 +49,7 @@ extension URLSession {
         from request: URLRequest,
         to file: URL,
         at offset: Int = 0,
-        bufferSize: Int = 65_536,
+        bufferSize: Int,
         progress: Flock.Progress? = nil
     ) async throws {
         let (asyncBytes, _) = try await bytes(for: request)
