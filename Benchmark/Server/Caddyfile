@@ -1,0 +1,7 @@
+{
+	auto_https off
+}
+
+localhost:80 {
+	file_server
+}

@@ -10,5 +10,6 @@ DerivedData/
 .netrc
 Package.resolved
 public/
-results
-chart.png
+results.json
+Charts/
+*.bin

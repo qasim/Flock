@@ -7,7 +7,7 @@ extension URLSession {
         to file: URL,
         at offset: Int = 0,
         until limit: Int? = nil,
-        bufferSize: Int = 65_536,
+        bufferSize: Int = 131_072,
         progress: Flock.Progress? = nil
     ) async throws {
         let destinationHandle = try FileHandle(forWritingTo: file)
@@ -26,7 +26,7 @@ extension URLSession {
             if let limit, totalBytesReceived == limit {
                 try destinationHandle.write(contentsOf: buffer)
                 await progress?.add(bytesReceived: buffer.count, from: request)
-                //asyncBytes.task.cancel()
+                asyncBytes.task.cancel()
                 try? destinationHandle.close()
                 return
             } else if totalBytesReceived % bufferSize == 0 {

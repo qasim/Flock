@@ -1,6 +1,6 @@
 import Foundation
 
-enum DownloadTestFile: Int, CaseIterable {
+enum RemoteTestFile: Int {
     case of5MB = 5_242_880
     case of10MB = 10_485_760
     case of20MB = 20_971_520
@@ -11,7 +11,7 @@ enum DownloadTestFile: Int, CaseIterable {
     case of1GB = 1_073_741_824
     case of10GB = 10_737_418_240
 
-    static func of(_ sizeInBytes: Int) -> DownloadTestFile {
+    static func of(_ sizeInBytes: Int) -> RemoteTestFile {
         let file = self.init(rawValue: sizeInBytes)
         precondition(file != nil, "unsupported size.")
         return file!
@@ -33,5 +33,17 @@ enum DownloadTestFile: Int, CaseIterable {
 
     var url: String {
         "http://212.183.159.230/\(name).zip"
+    }
+}
+
+struct LocalTestFile {
+    let bytes: Int
+
+    static func of(_ sizeInBytes: Int) -> LocalTestFile {
+        LocalTestFile(bytes: sizeInBytes)
+    }
+
+    var url: String {
+        "http://localhost/\(bytes).bin"
     }
 }

@@ -35,8 +35,7 @@ struct Main: AsyncParsableCommand {
                 "--dir", directory,
                 "--out", output,
                 "--stop-with-process", process,
-                "--quiet",
-                url
+                url,
             ])
 
         case .curl:
@@ -47,30 +46,24 @@ struct Main: AsyncParsableCommand {
             try Process.popen(arguments: [
                 "curl",
                 "--output", output,
-                "--silent",
-                url
+                url,
             ])
 
         case .flock:
-            blackHole(
-                try await URLSession.shared.flock(
-                    from: URL(string: url)!,
-                    numberOfConnections: connections,
-                    minimumConnectionSize: 1
-                )
+            _ = try await URLSession.shared.flock(
+                from: URL(string: url)!,
+                numberOfConnections: connections,
+                minimumConnectionSize: 1
             )
 
         case .urlSessionDownload:
             precondition(connections == 1, "multiple connections not supported.")
-            blackHole(
-                try await URLSession.shared.download(
-                    from: URL(string: url)!
-                )
-            )
+            try await withCheckedThrowingContinuation { continuation in
+                URLSession.shared.downloadTask(with: URLRequest(url: URL(string: url)!)) { _, _, _ in
+                    continuation.resume()
+                }
+                .resume()
+            }
         }
     }
-}
-
-@inline(never)
-private func blackHole<T>(_ value: T) {
 }

@@ -9,7 +9,8 @@ precondition(
 
 var benchmark = Benchmark(title: "Flock.Benchmark")
 
-benchmark.registerInputGenerator(for: DownloadTestFile.self, DownloadTestFile.of)
+benchmark.registerInputGenerator(for: RemoteTestFile.self, RemoteTestFile.of)
+benchmark.registerInputGenerator(for: LocalTestFile.self, LocalTestFile.of)
 
 if Process.findExecutable("aria2c") != nil {
     benchmark.addAria2cTasks()
