@@ -14,7 +14,7 @@
   "kind" : "symbol",
   "metadata" : {
     "extendedModule" : "Foundation",
-    "externalID" : "s:e:s:So12NSURLSessionC5FlockE5flock4from19numberOfConnections21minimumConnectionSize06bufferJ016progressDelegate9isVerbose10Foundation3URLV_So13NSURLResponseCtAM_S3iAC0b8ProgressM0_pSgSbtYaKF",
+    "externalID" : "s:e:s:So12NSURLSessionC5FlockE5flock4from19numberOfConnections21minimumConnectionSize16progressDelegate9isVerbose10Foundation3URLV_So13NSURLResponseCtAL_S2iAC0b8ProgressL0_pSgSbtYaKF",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -87,8 +87,8 @@
   "topicSections" : [
     {
       "identifiers" : [
-        "doc:\/\/Flock\/documentation\/Flock\/Foundation\/URLSession\/flock(from:numberOfConnections:minimumConnectionSize:bufferSize:progressDelegate:isVerbose:)-4igxt",
-        "doc:\/\/Flock\/documentation\/Flock\/Foundation\/URLSession\/flock(from:numberOfConnections:minimumConnectionSize:bufferSize:progressDelegate:isVerbose:)-7pj98"
+        "doc:\/\/Flock\/documentation\/Flock\/Foundation\/URLSession\/flock(from:numberOfConnections:minimumConnectionSize:progressDelegate:isVerbose:)-4alce",
+        "doc:\/\/Flock\/documentation\/Flock\/Foundation\/URLSession\/flock(from:numberOfConnections:minimumConnectionSize:progressDelegate:isVerbose:)-67tbw"
       ],
       "title" : "Instance Methods"
     }
@@ -164,7 +164,7 @@
   "type" : "topic",
   "url" : "\/documentation\/flock\/foundation\/urlsession"
 },
-"doc://Flock/documentation/Flock/Foundation/URLSession/flock(from:numberOfConnections:minimumConnectionSize:bufferSize:progressDelegate:isVerbose:)-4igxt": {
+"doc://Flock/documentation/Flock/Foundation/URLSession/flock(from:numberOfConnections:minimumConnectionSize:progressDelegate:isVerbose:)-4alce": {
   "abstract" : [
     {
       "text" : "Downloads a file.",
@@ -225,23 +225,6 @@
     {
       "kind" : "externalParam",
       "text" : "minimumConnectionSize"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Si",
-      "text" : "Int"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "bufferSize"
     },
     {
       "kind" : "text",
@@ -325,14 +308,14 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/Flock\/documentation\/Flock\/Foundation\/URLSession\/flock(from:numberOfConnections:minimumConnectionSize:bufferSize:progressDelegate:isVerbose:)-4igxt",
+  "identifier" : "doc:\/\/Flock\/documentation\/Flock\/Foundation\/URLSession\/flock(from:numberOfConnections:minimumConnectionSize:progressDelegate:isVerbose:)-4alce",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "flock(from:numberOfConnections:minimumConnectionSize:bufferSize:progressDelegate:isVerbose:)",
+  "title" : "flock(from:numberOfConnections:minimumConnectionSize:progressDelegate:isVerbose:)",
   "type" : "topic",
-  "url" : "\/documentation\/flock\/foundation\/urlsession\/flock(from:numberofconnections:minimumconnectionsize:buffersize:progressdelegate:isverbose:)-4igxt"
+  "url" : "\/documentation\/flock\/foundation\/urlsession\/flock(from:numberofconnections:minimumconnectionsize:progressdelegate:isverbose:)-4alce"
 },
-"doc://Flock/documentation/Flock/Foundation/URLSession/flock(from:numberOfConnections:minimumConnectionSize:bufferSize:progressDelegate:isVerbose:)-7pj98": {
+"doc://Flock/documentation/Flock/Foundation/URLSession/flock(from:numberOfConnections:minimumConnectionSize:progressDelegate:isVerbose:)-67tbw": {
   "abstract" : [
     {
       "text" : "Downloads a file.",
@@ -409,23 +392,6 @@
     },
     {
       "kind" : "externalParam",
-      "text" : "bufferSize"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Si",
-      "text" : "Int"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
       "text" : "progressDelegate"
     },
     {
@@ -493,12 +459,12 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/Flock\/documentation\/Flock\/Foundation\/URLSession\/flock(from:numberOfConnections:minimumConnectionSize:bufferSize:progressDelegate:isVerbose:)-7pj98",
+  "identifier" : "doc:\/\/Flock\/documentation\/Flock\/Foundation\/URLSession\/flock(from:numberOfConnections:minimumConnectionSize:progressDelegate:isVerbose:)-67tbw",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "flock(from:numberOfConnections:minimumConnectionSize:bufferSize:progressDelegate:isVerbose:)",
+  "title" : "flock(from:numberOfConnections:minimumConnectionSize:progressDelegate:isVerbose:)",
   "type" : "topic",
-  "url" : "\/documentation\/flock\/foundation\/urlsession\/flock(from:numberofconnections:minimumconnectionsize:buffersize:progressdelegate:isverbose:)-7pj98"
+  "url" : "\/documentation\/flock\/foundation\/urlsession\/flock(from:numberofconnections:minimumconnectionsize:progressdelegate:isverbose:)-67tbw"
 }
 }
 }
