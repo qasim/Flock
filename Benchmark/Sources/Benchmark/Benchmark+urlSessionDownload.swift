@@ -13,7 +13,7 @@ extension Benchmark {
 extension Benchmark {
     private mutating func addFileSizeTasks() {
         addSimple(
-            title: "local, fileSize=x, URLSession.downloadTask",
+            title: "local, fileSize=x, URLSession.download",
             input: LocalTestFile.self
         ) { input in
             try! Process.popen(arguments: [
@@ -24,7 +24,7 @@ extension Benchmark {
         }
 
         addSimple(
-            title: "remote, fileSize=x, URLSession.downloadTask",
+            title: "remote, fileSize=x, URLSession.download",
             input: RemoteTestFile.self
         ) { input in
             try! Process.popen(arguments: [

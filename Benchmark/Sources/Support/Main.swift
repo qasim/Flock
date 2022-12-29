@@ -18,9 +18,6 @@ struct Main: AsyncParsableCommand {
     @Option
     var connections: Int = 1
 
-    @Option
-    var bufferSize: Int = 65_536
-
     @Argument
     var url: String
 
@@ -56,18 +53,12 @@ struct Main: AsyncParsableCommand {
             _ = try await URLSession.shared.flock(
                 from: URL(string: url)!,
                 numberOfConnections: connections,
-                minimumConnectionSize: 1,
-                bufferSize: bufferSize
+                minimumConnectionSize: 1
             )
 
         case .urlSessionDownload:
             precondition(connections == 1, "multiple connections not supported.")
-            try await withCheckedThrowingContinuation { continuation in
-                URLSession.shared.downloadTask(with: URLRequest(url: URL(string: url)!)) { _, _, _ in
-                    continuation.resume()
-                }
-                .resume()
-            }
+            _ = try await URLSession.shared.download(from: URL(string: url)!)
         }
     }
 }

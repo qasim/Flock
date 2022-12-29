@@ -18,7 +18,7 @@ final class FlockProgressTests: XCTestCase {
             try? FileManager.default.removeItem(at: flockedDownload)
         }
 
-        XCTAssertEqual(testProgressDelegate.numberOfCalls, 80)
+        XCTAssertGreaterThan(testProgressDelegate.numberOfCalls, 100)
         XCTAssertEqual(testProgressDelegate.totalBytesReceived, testProgressDelegate.totalBytesExpected)
     }
 }

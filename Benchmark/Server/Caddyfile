@@ -2,6 +2,6 @@
 	auto_https off
 }
 
-localhost:80 {
+http://localhost {
 	file_server
 }
