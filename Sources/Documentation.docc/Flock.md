@@ -54,3 +54,7 @@ try await URLSession.shared.flock(
     progressDelegate: ExampleProgressDelegate()
 )
 ```
+
+## Disclaimer
+
+Flock comes with no warranty. You must use it at your own risk.

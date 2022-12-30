@@ -55,10 +55,6 @@ try await URLSession.shared.flock(
 
 For more details, have a look at the [Flock API reference](https://flock.qas.im).
 
-## Benchmarks
-
-TODO
-
 ## CLI
 
 Flock also provides a [command-line interface](https://github.com/qasim/Flock/tree/main/CLI) for downloading files inside a shell.
@@ -75,10 +71,6 @@ brew tap qasim/tools && brew install qasim/tools/flock
 flock --help
 ```
 
-## Contributing
-
-TODO
-
 ## Disclaimer
 
-TODO
+Flock comes with no warranty. You must use it at your own risk.
