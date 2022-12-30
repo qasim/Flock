@@ -1,7 +1,0 @@
-{
-	auto_https off
-}
-
-http://localhost {
-	file_server
-}

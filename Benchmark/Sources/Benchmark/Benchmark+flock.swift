@@ -94,7 +94,7 @@ private extension Benchmark {
                 ".build/release/support",
                 "--engine", "flock",
                 "--connections", "\(input)",
-                RemoteTestFile.of100MB.url,
+                "http://localhost/134217728",
             ])
         }
     }

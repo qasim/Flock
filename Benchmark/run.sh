@@ -24,16 +24,17 @@ case $1 in
                 esac
             ;;
             connections)
-                SIZES=$(seq 1 16)
+                SIZES=$(seq 1 `sysctl -n hw.ncpu`)
             ;;
         esac
         FILTER="${2}, ${3}=x"
         .build/release/benchmark run \
             results.json \
             --filter "$FILTER" \
+            --sizes $SIZES \
             --disable-cutoff true \
             --format pretty \
-            --sizes $SIZES
+            --mode replace-all
     ;;
 
     render)
@@ -44,6 +45,7 @@ case $1 in
             results.json \
             "Charts/${2}_${3}.png" \
             --filter "$FILTER" \
+            --linear-time \
             --amortized false
     ;;
 esac

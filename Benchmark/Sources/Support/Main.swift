@@ -26,7 +26,6 @@ struct Main: AsyncParsableCommand {
         case .aria2c:
             let directory = FileManager.default.temporaryDirectory.path()
             let output = "aria2c_\(UUID().uuidString).tmp"
-            let process = "\(ProcessInfo.processInfo.processIdentifier)"
             try Process.popen(arguments: [
                 "aria2c",
                 "--split", "\(connections)",
@@ -34,7 +33,6 @@ struct Main: AsyncParsableCommand {
                 "--min-split-size", "1048576", // minimum possible split
                 "--dir", directory,
                 "--out", output,
-                "--stop-with-process", process,
                 url,
             ])
 

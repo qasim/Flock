@@ -44,6 +44,6 @@ struct LocalTestFile {
     }
 
     var url: String {
-        "http://localhost/\(bytes).bin"
+        "http://localhost/\(bytes)"
     }
 }

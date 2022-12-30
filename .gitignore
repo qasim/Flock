@@ -13,3 +13,4 @@ public/
 results.json
 Charts/
 *.bin
+__pycache__/
