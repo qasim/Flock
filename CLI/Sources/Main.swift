@@ -6,7 +6,8 @@ import Foundation
 struct Main: AsyncParsableCommand {
     static var configuration = CommandConfiguration(
         commandName: "flock",
-        abstract: "Rapid file download using concurrent connections."
+        abstract: "Rapid file download using concurrent connections.",
+        version: Flock.version
     )
 
     @Argument(help: "The URL to download.")

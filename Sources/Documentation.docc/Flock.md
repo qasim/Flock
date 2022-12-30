@@ -13,7 +13,7 @@ The objective is to speed up downloads by maximizing core usage and download ban
 Flock can be included in your project via [Swift Package Manager](https://www.swift.org/package-manager). Add the following line to the dependencies in your `Package.swift` file:
 
 ```swift
-.package(url: "https://github.com/qasim/Flock", exact: "0.1.0"),
+.package(url: "https://github.com/qasim/Flock", exact: "0.2.0"),
 ```
 
 Then, include `Flock` as a dependency for the target which requires it:
