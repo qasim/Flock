@@ -6,8 +6,6 @@ import TSCBasic
 @main
 struct Main: AsyncParsableCommand {
     enum Engine: String, ExpressibleByArgument {
-        case aria2c
-        case curl
         case flock
         case urlSessionDownload
     }
@@ -22,41 +20,18 @@ struct Main: AsyncParsableCommand {
     var url: String
 
     func run() async throws {
+        let url = URL(string: url)!
         switch engine {
-        case .aria2c:
-            let directory = FileManager.default.temporaryDirectory.path()
-            let output = "aria2c_\(UUID().uuidString).tmp"
-            try Process.popen(arguments: [
-                "aria2c",
-                "--split", "\(connections)",
-                "--max-connection-per-server", "\(connections)",
-                "--min-split-size", "1048576", // minimum possible split
-                "--dir", directory,
-                "--out", output,
-                url,
-            ])
-
-        case .curl:
-            precondition(connections == 1, "multiple connections not supported.")
-            let output = FileManager.default.temporaryDirectory.appending(
-                component: "curl_\(UUID().uuidString).tmp"
-            ).path()
-            try Process.popen(arguments: [
-                "curl",
-                "--output", output,
-                url,
-            ])
-
         case .flock:
             _ = try await URLSession.shared.flock(
-                from: URL(string: url)!,
+                from: url,
                 numberOfConnections: connections,
                 minimumConnectionSize: 1
             )
 
         case .urlSessionDownload:
             precondition(connections == 1, "multiple connections not supported.")
-            _ = try await URLSession.shared.download(from: URL(string: url)!)
+            _ = try await URLSession.shared.download(from: url)
         }
     }
 }

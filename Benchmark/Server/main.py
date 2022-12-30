@@ -17,10 +17,14 @@ async def random_data(size: int):
 
         yield b"q" * bytes_to_send
         bytes_sent += bytes_to_send
-        # await sleep(SLEEP_DURATION)
+        await sleep(SLEEP_DURATION)
+
+@app.get("/")
+async def index():
+    return { "up": True }
 
 @app.get("/{size}")
-async def main(request: Request, size: int):
+async def file(request: Request, size: int):
     range_header = request.headers.get("Range")
 
     if range_header is not None:
