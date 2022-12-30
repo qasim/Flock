@@ -24,6 +24,15 @@
             "type" : "protocol"
           },
           {
+            "title" : "Variables",
+            "type" : "groupMarker"
+          },
+          {
+            "path" : "\/documentation\/flock\/version",
+            "title" : "let version: String",
+            "type" : "var"
+          },
+          {
             "title" : "Extended Modules",
             "type" : "groupMarker"
           },

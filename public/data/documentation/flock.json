@@ -108,7 +108,7 @@
         },
         {
           "code" : [
-            ".package(url: \"https:\/\/github.com\/qasim\/Flock\", exact: \"0.1.0\"),"
+            ".package(url: \"https:\/\/github.com\/qasim\/Flock\", exact: \"0.2.0\"),"
           ],
           "syntax" : "swift",
           "type" : "codeListing"
@@ -283,6 +283,12 @@
     },
     {
       "identifiers" : [
+        "doc:\/\/Flock\/documentation\/Flock\/version"
+      ],
+      "title" : "Variables"
+    },
+    {
+      "identifiers" : [
         "doc:\/\/Flock\/documentation\/Flock\/Foundation"
       ],
       "title" : "Extended Modules"
@@ -360,6 +366,40 @@
   "title" : "Foundation",
   "type" : "topic",
   "url" : "\/documentation\/flock\/foundation"
+},
+"doc://Flock/documentation/Flock/version": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "let"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "version"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    }
+  ],
+  "identifier" : "doc:\/\/Flock\/documentation\/Flock\/version",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "version",
+  "type" : "topic",
+  "url" : "\/documentation\/flock\/version"
 },
 "https://developer.apple.com/documentation/foundation/processinfo/1408184-activeprocessorcount": {
   "identifier" : "https:\/\/developer.apple.com\/documentation\/foundation\/processinfo\/1408184-activeprocessorcount",
