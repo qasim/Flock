@@ -62,7 +62,7 @@ Flock also provides a [command-line interface](https://github.com/qasim/Flock/tr
 ### Installation
 
 ```bash
-brew tap qasim/tools && brew install qasim/tools/flock
+brew install qasim/tools/flock
 ```
 
 ### Usage
