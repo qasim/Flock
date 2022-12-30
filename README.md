@@ -74,3 +74,5 @@ flock --help
 ## Disclaimer
 
 Flock comes with no warranty. You must use it at your own risk.
+
+Flock works fastest when a file being downloaded has multiple file servers backing its URL. Alternatively, [support for manually providing mirrors](https://github.com/qasim/Flock/issues/12) is planned as well.
